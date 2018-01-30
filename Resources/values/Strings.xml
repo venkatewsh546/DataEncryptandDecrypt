@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>   
+    <string name="ApplicationName">DataEncryptAndDecrypt</string>
+  <string name="openDrawer">Drawer Open</string>
+  <string name="closeDrawer">...                               </string>
+</resources>

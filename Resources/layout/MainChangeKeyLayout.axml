@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MainChangeKeyLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/CkFileSelectEditBox"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:hint="click to select encrypted source file"
+            android:inputType="none"
+            android:cursorVisible="true"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:shadowColor="#555555"
+            android:shadowDx="5.0"
+            android:shadowDy="5.0"
+            android:shadowRadius="3.0" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Ckoldkey"
+            android:hint="old encryptionkey"
+            android:shadowColor="#555555"
+            android:shadowDx="5.0"
+            android:shadowDy="5.0"
+            android:shadowRadius="3.0" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="new encryptionkey"
+            android:id="@+id/Cknewkey"
+            android:shadowColor="#555555"
+            android:shadowDx="5.0"
+            android:shadowDy="5.0"
+            android:shadowRadius="3.0" />
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:text="ChnageKey"        
+        android:id="@+id/ChangeKeyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shadowColor="#555555"
+        android:shadowDx="5.0"
+        android:shadowDy="5.0"
+        android:shadowRadius="3.0" />
+</LinearLayout>

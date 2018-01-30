@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MainEncryptLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/ElFileSelectTextBox"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:hint="Click For File"
+            android:inputType="none"
+            android:cursorVisible="true"
+            android:layout_height="wrap_content"
+            android:focusable="true" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/ElTypeOfAccounTextBox"
+            android:layout_height="wrap_content"
+            android:hint="TypeOfAccount"
+            android:inputType="text"
+            android:layout_width="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/ElUserNameTextBox"
+            android:layout_height="wrap_content"
+            android:hint="UserName"
+            android:inputType="text"
+            android:layout_width="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/ElPasswordTextBox"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="text"
+            android:layout_width="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/ElEncryptionKeyTextBox"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="EncryptionKey"
+            android:layout_width="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/EncryptButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Encrypt" />
+</LinearLayout>
