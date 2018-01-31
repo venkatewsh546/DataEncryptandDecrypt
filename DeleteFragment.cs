@@ -6,14 +6,16 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Text;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using static DataEncryptAndDecrypt.CommonMethods;
 
 namespace DataEncryptAndDecrypt
 {
-    public class DeleteFragment : Android.Support.V4.App.Fragment, Classvalues
+    public sealed class DeleteFragment : Android.Support.V4.App.Fragment, IChangeViewvalues
     {
         View deleteView;
         //MainDeleteLayout
@@ -26,6 +28,7 @@ namespace DataEncryptAndDecrypt
         public void Changevalues()
         {
             delFileSelectTextBox.Text = Filepath;
+            Spinner(CommonMethods.FileData.mydata.unamepass, delTypeofAccountSpinner);
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -46,14 +49,26 @@ namespace DataEncryptAndDecrypt
 
             delEncryptionKeyTextBox = deleteView.FindViewById<EditText>(Resource.Id.DelEncryptionKeyTextBox);
 
+            delEncryptionKeyTextBox.TextChanged += DelEncryptionKeyTextBoxtextChnagelistener;
+
             delTypeofAccountSpinner = deleteView.FindViewById<Spinner>(Resource.Id.DelTypeofAccountSpinner);
             delTypeofAccountSpinner.ItemSelected += DelTypeOfAcoountSpinnerItemClick;
+            delTypeofAccountSpinner.Enabled = false;
             delUserNameSpinner = deleteView.FindViewById<Spinner>(Resource.Id.DelUserNameSpinner);
+            delUserNameSpinner.Enabled = false;
 
             deleteDataButton = deleteView.FindViewById<Button>(Resource.Id.DeleteDataButton);
             deleteDataButton.Click += DeleteButtonClick;
 
             return deleteView;
+        }
+
+        private void DelEncryptionKeyTextBoxtextChnagelistener(object sender, TextChangedEventArgs e)
+        {
+           if(delEncryptionKeyTextBox.Text.Length>0)
+            {
+                delTypeofAccountSpinner.Enabled = true;
+            }
         }
 
         private void DeleteButtonClick(object sender, EventArgs e)
@@ -67,37 +82,40 @@ namespace DataEncryptAndDecrypt
                    )
                 {
 
-                    var index = _fileData.mydata.unamepass.FindIndex(x => (x.Source+','+x.UserName).Equals(delTypeofAccountSpinner.SelectedItem.ToString().ToUpper() + "," + EncryptPassword(delUserNameSpinner.SelectedItem.ToString(), delEncryptionKeyTextBox.Text)));
+                    var index = CommonMethods.FileData.mydata.unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(delTypeofAccountSpinner.SelectedItem.ToString().ToUpper() + "," + EncryptPassword(delUserNameSpinner.SelectedItem.ToString(), delEncryptionKeyTextBox.Text)));
 
-                    _fileData.mydata.unamepass.RemoveAt(index);
+                    CommonMethods.FileData.mydata.unamepass.RemoveAt(index);
 
-                   //System.IO.File.WriteAllText(delFileSelectTextBox.Text,  new JavaScriptSerializer().Serialize(fileData));
-                    Spinner(_fileData.mydata.unamepass, delTypeofAccountSpinner);
-                    Toast.MakeText(Activity.ApplicationContext, "data Deleted successfully", ToastLength.Short).Show();
+                    System.IO.File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(CommonMethods.FileData));
+                    Spinner(CommonMethods.FileData.mydata.unamepass, delTypeofAccountSpinner);
+                    Toast.MakeText(_context, "data Deleted successfully", ToastLength.Short).Show();
                 }
                 else
                 {
-                    MessageDialog("Error", "enter data in all Required Fields \n TypeOfAccount \n  UserName \n FileSelect \n EncryptionKey", Activity.ApplicationContext);
+                    MessageDialog("Error", "enter data in all Required Fields \n TypeOfAccount \n  UserName \n FileSelect \n EncryptionKey",_context);
                 }
             }
             catch (Exception Ex)
             {
-                MessageDialog("Error", "ChangeEncryptionKey \n" + Ex.Message, Activity.ApplicationContext);
+                MessageDialog("Error", "ChangeEncryptionKey \n" + Ex.Message, _context);
             }
         }
 
         private void DelTypeOfAcoountSpinnerItemClick(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            if (delEncryptionKeyTextBox.Text.Length == 0 || delFileSelectTextBox.Text.Length == 0
-                 && !delTypeofAccountSpinner.SelectedItem.ToString().Equals("<<<< Select Item >>>>"))
-            {
-                MessageDialog("Info", "select File/enter Encryption key Before Selecting Item",Activity.ApplicationContext);
+            //if (delEncryptionKeyTextBox.Text.Length == 0 || delFileSelectTextBox.Text.Length == 0
+            //     && !delTypeofAccountSpinner.SelectedItem.ToString().Equals("<<<< Select Item >>>>"))
+            //{
+            //    MessageDialog("Info", "select File/enter Encryption key Before Selecting Item",_context);
+            //    delTypeofAccountSpinner.SetSelection(0);
 
-            }
-            else if (delEncryptionKeyTextBox.Text.Length > 0 || delFileSelectTextBox.Text.Length > 0
+            //}
+            //else
+            if (delEncryptionKeyTextBox.Text.Length > 0 || delFileSelectTextBox.Text.Length > 0
                  && !delTypeofAccountSpinner.SelectedItem.ToString().Equals("<<<< Select Item >>>>"))
             {
-                UserNameSpinner(_fileData.mydata.unamepass, ((Spinner)sender).GetItemAtPosition(e.Position).ToString());
+                delUserNameSpinner.Enabled = true;
+                UserNameSpinner(CommonMethods.FileData.mydata.unamepass, ((Spinner)sender).GetItemAtPosition(e.Position).ToString());
             }
 
         }
@@ -109,7 +127,7 @@ namespace DataEncryptAndDecrypt
             {
                 foreach (Unamepass str in dataFromFile)
                 {
-                    if (str.Source.ToUpper().StartsWith(typeofaccount))
+                    if (str.Source.ToUpper().Equals(typeofaccount))
                     {
                         if (!userNameList.Contains(DecryptPassword(str.UserName, delEncryptionKeyTextBox.Text)))
                         {
@@ -118,14 +136,14 @@ namespace DataEncryptAndDecrypt
                     }
                 }
 
-                var userNameAdapter = new ArrayAdapter<System.String>(Activity.ApplicationContext, Android.Resource.Layout.SimpleSpinnerItem, userNameList);
+                var userNameAdapter = new ArrayAdapter<System.String>(_context, Android.Resource.Layout.SimpleSpinnerItem, userNameList);
                 userNameAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);                
                 delUserNameSpinner.Adapter = userNameAdapter;              
                 userNameList.Clear();
             }
             catch (Exception ex)
             {
-                MessageDialog("UserNamespinner", ex.Message, Activity.ApplicationContext);
+                MessageDialog("UserNamespinner", ex.Message, _context);
             }
         }
     }

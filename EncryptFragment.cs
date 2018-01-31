@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace DataEncryptAndDecrypt
 {
-    public class EncryptFragment : Android.Support.V4.App.Fragment, Classvalues
+    public sealed class EncryptFragment : Android.Support.V4.App.Fragment, IChangeViewvalues
     {
         View encryptView;
         EditText elFileSelectTextBox;
@@ -35,7 +35,7 @@ namespace DataEncryptAndDecrypt
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-             encryptView= inflater.Inflate(Resource.Layout.MainEncryptLayout, container, false); 
+            encryptView= inflater.Inflate(Resource.Layout.MainEncryptLayout, container, false); 
             elFileSelectTextBox = encryptView.FindViewById<EditText>(Resource.Id.ElFileSelectTextBox);
             elFileSelectTextBox.SetRawInputType(Android.Text.InputTypes.Null);
             elFileSelectTextBox.SetCursorVisible(true);
@@ -74,7 +74,7 @@ namespace DataEncryptAndDecrypt
 
                 if (System.String.IsNullOrEmpty(elFileSelectTextBox.Text))
                 {
-                    myFile = new Java.IO.File(Activity.ApplicationContext.GetExternalFilesDir(null), "EncryptDecrypt.txt");
+                    myFile = new Java.IO.File(_context.GetExternalFilesDir(null), "EncryptDecrypt.txt");
                     elFileSelectTextBox.Text = myFile.AbsolutePath;
                 }
                 else
@@ -92,57 +92,61 @@ namespace DataEncryptAndDecrypt
                     userName = EncryptPassword(elUserNameTextBox.Text, elEncryptionKeyTextBox.Text);
                     password = EncryptPassword(elPasswordTextBox.Text, elEncryptionKeyTextBox.Text);
                     encryptKey = elEncryptionKeyTextBox.Text;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.AppendFormat("{0},{1},{2}", account.ToUpper(), userName, password);
+                   
 
                     if (!myFile.Exists())
                     {
                         myFile.CreateNewFile();
-                        writer = new BufferedWriter(new FileWriter(myFile, true));
-                        writer.Append("Source,UserName,Password");
-                        writer.Append(stringBuilder.ToString());
-                        writer.Close();
-                        Toast.MakeText(Activity.ApplicationContext, "data encrypted successfully", ToastLength.Short).Show();
+
+                        CommonMethods.FileData.mydata.unamepass.Add(new Unamepass() {
+                            UserName= userName,
+                            Password= password,
+                            Source= account
+                        });
+
+                        System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.FileData));
+
+                        Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
                     }
                     else
                     {
-                        var index = _fileData.mydata.unamepass.FindIndex(x => (x.Source+','+x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
+                        var index = CommonMethods.FileData.mydata.unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
 
                         if (index != -1)
                         {
-                            MessageDialog("Updaing", "Old Password Will Replace With New One", Activity.ApplicationContext);
+                            MessageDialog("Updaing", "Old Password Will Replace With New One", _context);
 
                             var searchdata = account.ToString().ToUpper() + "," + userName;
 
-                            _fileData.mydata.unamepass[index].Password = password;
-                           
-                           System.IO.File.WriteAllText(myFile.AbsolutePath,JsonConvert.SerializeObject(_fileData));
+                            CommonMethods.FileData.mydata.unamepass[index].Password = password;
+
+                            System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.FileData));
                             
-                            Toast.MakeText(Activity.ApplicationContext, "data updated successfully", ToastLength.Short).Show();
+                            Toast.MakeText(_context, "data updated successfully", ToastLength.Short).Show();
                         }
                         else
                         {
-                            _fileData.mydata.unamepass.Add(new Unamepass()
+                            CommonMethods.FileData.mydata.unamepass.Add(new Unamepass()
                             {
                                 Source = account.ToUpper(),
                                 UserName = userName,
                                 Password = password
                             });
 
-                          //  System.IO.File.WriteAllText(myFile.AbsolutePath, new JavaScriptSerializer().Serialize(fileData));
-                            Toast.MakeText(Activity.ApplicationContext, "data encrypted successfully", ToastLength.Short).Show();
+                            System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.FileData));
+                            Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
 
                         }
                     }
                 }
                 else
                 {
-                    MessageDialog("info", "please enter data in all fileds", Activity.ApplicationContext);
+                    MessageDialog("info", "please enter data in all fileds", _context);
                 }
             }
             catch (System.IO.IOException e)
             {
-                MessageDialog("Error....", "writeToFile :- " + e.Message, Activity.ApplicationContext);
+                MessageDialog("Error....", "writeToFile :- " + e.Message, _context);
             }
         }
 

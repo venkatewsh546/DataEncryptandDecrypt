@@ -97,24 +97,28 @@ namespace DataEncryptAndDecrypt
             switch (e.Id)
             {
                 case 0:
+                    ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
                     ft.Replace(Resource.Id.DynamicFragments, encryptFragment);
                     ft.Commit();
                     CommonMethods.Fragmentobj = encryptFragment;
                     break;
                 case 1:
+                    ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
                     ft.Replace(Resource.Id.DynamicFragments, decryptFragment);
                     ft.Commit();
                     CommonMethods.Fragmentobj = decryptFragment;
                     break;
                 case 2:
+                    ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
                     ft.Replace(Resource.Id.DynamicFragments, deleteFragment);
                     ft.Commit();
                     CommonMethods.Fragmentobj = deleteFragment;
                     break;
                 case 3:
+                    ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
                     ft.Replace(Resource.Id.DynamicFragments, changekeyFragment);
                     ft.Commit();

@@ -25,16 +25,16 @@ namespace DataEncryptAndDecrypt
         //public static List<System.String> dataFromFile;
         static String _filepath=null;
         static Android.App.AlertDialog.Builder _builder;
-        public static FileData _fileData;
-        private static Classvalues _fragmentobj;
+        private static FileData fileData;
+        private static IChangeViewvalues _fragmentobj;
 
         public static Context Context { get => _context; set => _context = value; }
-        public static FileData FileData { get => _fileData; set => _fileData = value; }
         public static string Filepath { get => _filepath; set => _filepath = value; }
         public static List<string> Dirs { get => _dirs; set => _dirs = value; }
         public static Dialog Dialog { get => _dialog; set => _dialog = value; }
         public static AlertDialog.Builder Builder { get => _builder; set => _builder = value; }
-        public static Classvalues Fragmentobj { get => _fragmentobj; set => _fragmentobj = value; }
+        public static IChangeViewvalues Fragmentobj { get => _fragmentobj; set => _fragmentobj = value; }
+        public static FileData FileData { get => fileData; set => fileData = value; }
 
         public static string EncryptPassword(string passcode, string EncryptionKey)
         {

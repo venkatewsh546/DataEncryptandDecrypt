@@ -15,7 +15,7 @@ using static DataEncryptAndDecrypt.CommonMethods;
 
 namespace DataEncryptAndDecrypt
 {
-    public class DecryptFragment : Android.Support.V4.App.Fragment, Classvalues
+    public sealed class DecryptFragment : Android.Support.V4.App.Fragment, IChangeViewvalues
     {
 
         View decryptView;
@@ -57,7 +57,7 @@ namespace DataEncryptAndDecrypt
         public void Changevalues()
         {
             dlFileSelectTextBox.Text = Filepath;
-            Spinner(_fileData.mydata.unamepass, dlTypeofAccountSpinner);
+            Spinner(CommonMethods.FileData.mydata.unamepass, dlTypeofAccountSpinner);
 
         }
 
@@ -68,7 +68,7 @@ namespace DataEncryptAndDecrypt
 
             if (dlFileSelectTextBox.Text.Length != 0 && dlEncryptionKeyTextBox.Text.Length != 0)
             {
-                foreach (Unamepass str in _fileData.mydata.unamepass)
+                foreach (Unamepass str in CommonMethods.FileData.mydata.unamepass)
                 {
                     if (str.Source.Equals(dlTypeofAccountSpinner.SelectedItem.ToString()))
                     {
@@ -77,12 +77,12 @@ namespace DataEncryptAndDecrypt
                         datacol.Add(DecryptPassword(str.Password, dlEncryptionKeyTextBox.Text));
                     }
                 }
-                var adapter = new ArrayAdapter<System.String>(Activity.ApplicationContext, Android.Resource.Layout.SimpleSpinnerItem, datacol);
+                var adapter = new ArrayAdapter<System.String>(_context, Android.Resource.Layout.SimpleSpinnerItem, datacol);
                 decrypteddataListView.Adapter = adapter;
             }
             else
             {
-                MessageDialog("Info", "Please Enter data in FileSelect/EncryptionKey fields", Activity.ApplicationContext);
+                MessageDialog("Info", "Please Enter data in FileSelect/EncryptionKey fields", _context);
             }
         }
 

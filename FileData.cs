@@ -43,7 +43,7 @@ namespace DataEncryptAndDecrypt
         public Mydata mydata { get; set; }
     }
 
-    public interface Classvalues
+    public interface IChangeViewvalues
     {
         void Changevalues();
     }
