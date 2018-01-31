@@ -59,7 +59,7 @@ namespace DataEncryptAndDecrypt
         {
             try
             {
-                FileData nFileData = CommonMethods.FileData;
+                FileData nFileData = CommonMethods.MFileData;
 
                 if (ckFileSelectTextBox.Text.Length > 0 &&
                     (!System.String.IsNullOrEmpty(cknewkey.Text) || !System.String.IsNullOrWhiteSpace(cknewkey.Text)) &&

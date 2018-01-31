@@ -34,7 +34,7 @@ namespace DataEncryptAndDecrypt
         public static Dialog Dialog { get => _dialog; set => _dialog = value; }
         public static AlertDialog.Builder Builder { get => _builder; set => _builder = value; }
         public static IChangeViewvalues Fragmentobj { get => _fragmentobj; set => _fragmentobj = value; }
-        public static FileData FileData { get => fileData; set => fileData = value; }
+        public static FileData MFileData { get => fileData; set => fileData = value; }
 
         public static string EncryptPassword(string passcode, string EncryptionKey)
         {
@@ -217,7 +217,7 @@ namespace DataEncryptAndDecrypt
                 }
                 else
                 {
-                    Java.IO.File dirFile = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/" + str);
+                    Java.IO.File dirFile = new Java.IO.File(Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, str));
                     Dirs.Add("..");
                     Dirs.Add(str);
 
@@ -241,14 +241,14 @@ namespace DataEncryptAndDecrypt
                     {
                        // fileData =GetDataFromJson(dirFile.AbsolutePath);
                         Filepath = dirFile.AbsolutePath;
-                        FileData = GetDataFromJson(Filepath);
+                        MFileData = GetDataFromJson(Filepath);
                         Dialog.Dismiss();
                         _fragmentobj.Changevalues();
                         return;
                     }
                 }
                 Dialog.Dismiss();
-                Builder.Dispose();
+                //Builder.Dispose();
                 Builder = new Android.App.AlertDialog.Builder(_context);
                 Builder.SetTitle("Selected Content");
 

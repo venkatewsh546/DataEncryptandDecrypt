@@ -75,6 +75,12 @@ namespace DataEncryptAndDecrypt
                 {
                     myFile = new Java.IO.File(_context.GetExternalFilesDir(null), "EncryptDecrypt.txt");
                     elFileSelectTextBox.Text = myFile.AbsolutePath;
+
+                    MFileData = new FileData();
+                    MFileData.mydata = new Mydata();
+                    MFileData.mydata.unamepass = new List<Unamepass>();
+                    MFileData.mydata.cardinfo = new List<Cardinfo>();
+
                 }
                 else
                 {
@@ -95,21 +101,21 @@ namespace DataEncryptAndDecrypt
 
                     if (!myFile.Exists())
                     {
-                        myFile.CreateNewFile();
+                        myFile.CreateNewFile();                       
 
-                        CommonMethods.FileData.mydata.unamepass.Add(new Unamepass() {
+                        CommonMethods.MFileData.mydata.unamepass.Add(new Unamepass() {
                             UserName= userName,
                             Password= password,
                             Source= account
                         });
 
-                        System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.FileData));
+                        System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
 
                         Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
                     }
                     else
                     {
-                        var index = CommonMethods.FileData.mydata.unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
+                        var index = MFileData.mydata.unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
 
                         if (index != -1)
                         {
@@ -117,22 +123,22 @@ namespace DataEncryptAndDecrypt
 
                             var searchdata = account.ToString().ToUpper() + "," + userName;
 
-                            CommonMethods.FileData.mydata.unamepass[index].Password = password;
+                            CommonMethods.MFileData.mydata.unamepass[index].Password = password;
 
-                            System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.FileData));
+                            System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
                             
                             Toast.MakeText(_context, "data updated successfully", ToastLength.Short).Show();
                         }
                         else
                         {
-                            CommonMethods.FileData.mydata.unamepass.Add(new Unamepass()
+                            CommonMethods.MFileData.mydata.unamepass.Add(new Unamepass()
                             {
                                 Source = account.ToUpper(),
                                 UserName = userName,
                                 Password = password
                             });
 
-                            System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.FileData));
+                            System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
                             Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
 
                         }

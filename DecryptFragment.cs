@@ -57,7 +57,7 @@ namespace DataEncryptAndDecrypt
         public void Changevalues()
         {
             dlFileSelectTextBox.Text = Filepath;
-            Spinner(CommonMethods.FileData.mydata.unamepass, dlTypeofAccountSpinner);
+            Spinner(CommonMethods.MFileData.mydata.unamepass, dlTypeofAccountSpinner);
 
         }
 
@@ -68,7 +68,7 @@ namespace DataEncryptAndDecrypt
 
             if (dlFileSelectTextBox.Text.Length != 0 && dlEncryptionKeyTextBox.Text.Length != 0)
             {
-                foreach (Unamepass str in CommonMethods.FileData.mydata.unamepass)
+                foreach (Unamepass str in CommonMethods.MFileData.mydata.unamepass)
                 {
                     if (str.Source.Equals(dlTypeofAccountSpinner.SelectedItem.ToString()))
                     {
