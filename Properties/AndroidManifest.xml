@@ -4,5 +4,5 @@
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<application android:label="DataEncryptAndDecrypt_new" android:icon="@drawable/Icon"></application>
+	<application android:label="DataEncryptAndDecrypt" android:icon="@drawable/Icon"></application>
 </manifest>
