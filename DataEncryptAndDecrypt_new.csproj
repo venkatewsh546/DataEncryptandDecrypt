@@ -112,7 +112,6 @@
     <Compile Include="FingerprintHandler.cs" />
     <Compile Include="FingerPrintActivity.cs" />
     <Compile Include="CommonMethods.cs" />
-    <Compile Include="MainAppScreen - Copy.cs" />
     <Compile Include="MyActionBarDrawerToggle.cs" />
     <Compile Include="MainAppScreen.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
