@@ -34,7 +34,6 @@ namespace DataEncryptAndDecrypt
         private ArrayAdapter mLeftAdapter;
         private List<string> mLeftDataSet;
         Android.Support.V4.App.FragmentTransaction ft;   
-        static FileData fileData;
         private SupportFragment mCurrentFragment = new SupportFragment();
 
         EncryptFragment encryptFragment;
@@ -101,17 +100,17 @@ namespace DataEncryptAndDecrypt
                 case 0:
                     ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
-                    ft.Detach(mCurrentFragment);
-                    ft.Add(Resource.Id.DynamicFragments, encryptFragment);
+                    ft.Detach(mCurrentFragment).Attach(mCurrentFragment);
+                    ft.Replace(Resource.Id.DynamicFragments, encryptFragment);
                     ft.Commit();
                     mCurrentFragment = encryptFragment;
-                    CommonMethods.Fragmentobj = encryptFragment;
+                    CommonMethods.Fragmentobj = new EncryptFragment();
                     break;
                 case 1:
                     ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
-                    ft.Detach(mCurrentFragment);
-                    ft.Add(Resource.Id.DynamicFragments, decryptFragment);
+                    ft.Detach(mCurrentFragment).Attach(mCurrentFragment);
+                    ft.Replace(Resource.Id.DynamicFragments, decryptFragment);
                     ft.Commit();
                     mCurrentFragment = decryptFragment;
                     CommonMethods.Fragmentobj = decryptFragment;
@@ -119,8 +118,8 @@ namespace DataEncryptAndDecrypt
                 case 2:
                     ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
-                    ft.Detach(mCurrentFragment);
-                    ft.Add(Resource.Id.DynamicFragments, deleteFragment);
+                    ft.Detach(mCurrentFragment).Attach(mCurrentFragment);
+                    ft.Replace(Resource.Id.DynamicFragments, deleteFragment);
                     ft.Commit();
                     mCurrentFragment = deleteFragment;
                     CommonMethods.Fragmentobj = deleteFragment;
@@ -128,8 +127,8 @@ namespace DataEncryptAndDecrypt
                 case 3:
                     ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
-                    ft.Detach(mCurrentFragment);
-                    ft.Add(Resource.Id.DynamicFragments, changekeyFragment);
+
+                    ft.Replace(Resource.Id.DynamicFragments, changekeyFragment);
                     ft.Commit();
                     mCurrentFragment = changekeyFragment;
                     CommonMethods.Fragmentobj = changekeyFragment;

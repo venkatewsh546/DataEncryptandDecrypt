@@ -28,7 +28,7 @@ namespace DataEncryptAndDecrypt
         public void Changevalues()
         {
             ckFileSelectTextBox.Text = Filepath;
-        
+            
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -38,9 +38,7 @@ namespace DataEncryptAndDecrypt
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            changeKeyView=(View)inflater.Inflate(Resource.Layout.MainChangeKeyLayout, container, false);
-
-           
+            changeKeyView=(View)inflater.Inflate(Resource.Layout.MainChangeKeyLayout, container, false);           
 
             ckFileSelectTextBox = changeKeyView.FindViewById<EditText>(Resource.Id.CkFileSelectEditBox);
             ckFileSelectTextBox.SetRawInputType(Android.Text.InputTypes.Null);
@@ -48,9 +46,7 @@ namespace DataEncryptAndDecrypt
             ckFileSelectTextBox.Click += DisplayFilesAndFolders;
 
             ckoldkey = changeKeyView.FindViewById<EditText>(Resource.Id.Ckoldkey);
-            ckoldkey.Text = "My_Own@P@s$wordS.06K51A0546";
             cknewkey = changeKeyView.FindViewById<EditText>(Resource.Id.Cknewkey);
-            cknewkey.Text = "83659";
 
             changeEncryptKeyButton = changeKeyView.FindViewById<Button>(Resource.Id.ChangeKeyButton);
             changeEncryptKeyButton.Click += ChangeEncryptKeyButtonClick;

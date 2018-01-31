@@ -70,7 +70,6 @@ namespace DataEncryptAndDecrypt
             try
             {
                 Java.IO.File myFile;
-                BufferedWriter writer;
 
                 if (System.String.IsNullOrEmpty(elFileSelectTextBox.Text))
                 {
