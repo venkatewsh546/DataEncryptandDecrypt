@@ -28,7 +28,7 @@ namespace DataEncryptAndDecrypt
         public void Changevalues()
         {
             delFileSelectTextBox.Text = Filepath;
-            Spinner(CommonMethods.MFileData.mydata.unamepass, delTypeofAccountSpinner);
+            Spinner(CommonMethods.MFileData.Mydata.Unamepass, delTypeofAccountSpinner);
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -82,12 +82,12 @@ namespace DataEncryptAndDecrypt
                    )
                 {
 
-                    var index = CommonMethods.MFileData.mydata.unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(delTypeofAccountSpinner.SelectedItem.ToString().ToUpper() + "," + EncryptPassword(delUserNameSpinner.SelectedItem.ToString(), delEncryptionKeyTextBox.Text)));
+                    var index = CommonMethods.MFileData.Mydata.Unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(delTypeofAccountSpinner.SelectedItem.ToString().ToUpper() + "," + EncryptPassword(delUserNameSpinner.SelectedItem.ToString(), delEncryptionKeyTextBox.Text)));
 
-                    CommonMethods.MFileData.mydata.unamepass.RemoveAt(index);
+                    CommonMethods.MFileData.Mydata.Unamepass.RemoveAt(index);
 
                     System.IO.File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(CommonMethods.MFileData));
-                    Spinner(CommonMethods.MFileData.mydata.unamepass, delTypeofAccountSpinner);
+                    Spinner(CommonMethods.MFileData.Mydata.Unamepass, delTypeofAccountSpinner);
                     Toast.MakeText(_context, "data Deleted successfully", ToastLength.Short).Show();
                 }
                 else
@@ -115,7 +115,7 @@ namespace DataEncryptAndDecrypt
                  && !delTypeofAccountSpinner.SelectedItem.ToString().Equals("<<<< Select Item >>>>"))
             {
                 delUserNameSpinner.Enabled = true;
-                UserNameSpinner(CommonMethods.MFileData.mydata.unamepass, ((Spinner)sender).GetItemAtPosition(e.Position).ToString());
+                UserNameSpinner(CommonMethods.MFileData.Mydata.Unamepass, ((Spinner)sender).GetItemAtPosition(e.Position).ToString());
             }
 
         }

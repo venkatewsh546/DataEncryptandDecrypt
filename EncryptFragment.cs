@@ -80,9 +80,9 @@ namespace DataEncryptAndDecrypt
                     myFile.CreateNewFile();
 
                     MFileData = new FileData();
-                    MFileData.mydata = new Mydata();
-                    MFileData.mydata.unamepass = new List<Unamepass>();
-                    MFileData.mydata.cardinfo = new List<Cardinfo>();
+                    MFileData.Mydata = new Mydata();
+                    MFileData.Mydata.Unamepass = new List<Unamepass>();
+                    MFileData.Mydata.Cardinfo = new List<Cardinfo>();
 
                 }
                 else
@@ -115,7 +115,7 @@ namespace DataEncryptAndDecrypt
                     //}
                     //if
                     //{
-                 var index = MFileData.mydata.unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
+                 var index = MFileData.Mydata.Unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
 
                 if (index != -1)
                 {
@@ -123,7 +123,7 @@ namespace DataEncryptAndDecrypt
 
                     var searchdata = account.ToString().ToUpper() + "," + userName;
 
-                    CommonMethods.MFileData.mydata.unamepass[index].Password = password;
+                    CommonMethods.MFileData.Mydata.Unamepass[index].Password = password;
 
                     System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
                             
@@ -131,7 +131,7 @@ namespace DataEncryptAndDecrypt
                 }
                 else
                 {
-                    CommonMethods.MFileData.mydata.unamepass.Add(new Unamepass()
+                    CommonMethods.MFileData.Mydata.Unamepass.Add(new Unamepass()
                     {
                         Source = account.ToUpper(),
                         UserName = userName,

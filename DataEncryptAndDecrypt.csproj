@@ -85,6 +85,7 @@
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DecryptFragment.cs" />
     <Compile Include="DeleteFragment.cs" />
+    <Compile Include="CardInfoFragment.cs" />
     <Compile Include="EncryptFragment.cs" />
     <Compile Include="FileData.cs" />
     <Compile Include="MainAppScreen.cs" />
@@ -104,9 +105,9 @@
     <AndroidResource Include="Resources\layout\MainDecryptLayout.axml" />
     <AndroidResource Include="Resources\layout\MainDeleteLayout.axml" />
     <AndroidResource Include="Resources\layout\MainEncryptLayout.axml" />
-    <AndroidResource Include="Resources\layout\DecryprDataLayout.axml" />
-    <AndroidResource Include="Resources\layout\DeleteDataLayout.axml" />
-    <AndroidResource Include="Resources\layout\EncryptDataLayout.axml" />
+    <AndroidResource Include="Resources\layout\CradInfoLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\mipmap-hdpi\" />

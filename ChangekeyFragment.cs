@@ -68,11 +68,11 @@ namespace DataEncryptAndDecrypt
                 {
                     Unamepass unamepassdata;
 
-                    for (int index = 0; index <= nFileData.mydata.unamepass.Count-1; index++)
+                    for (int index = 0; index <= nFileData.Mydata.Unamepass.Count-1; index++)
                     {
-                        unamepassdata = nFileData.mydata.unamepass[index];
-                        nFileData.mydata.unamepass[index].UserName = EncryptPassword(DecryptPassword(unamepassdata.UserName, ckoldkey.Text), cknewkey.Text);
-                        nFileData.mydata.unamepass[index].Password = EncryptPassword(DecryptPassword(unamepassdata.Password, ckoldkey.Text), cknewkey.Text);
+                        unamepassdata = nFileData.Mydata.Unamepass[index];
+                        nFileData.Mydata.Unamepass[index].UserName = EncryptPassword(DecryptPassword(unamepassdata.UserName, ckoldkey.Text), cknewkey.Text);
+                        nFileData.Mydata.Unamepass[index].Password = EncryptPassword(DecryptPassword(unamepassdata.Password, ckoldkey.Text), cknewkey.Text);
                     }
 
 

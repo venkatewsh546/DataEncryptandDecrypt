@@ -34,13 +34,13 @@ namespace DataEncryptAndDecrypt
 
     public class Mydata
     {
-        public List<Unamepass> unamepass { get; set; }
-        public List<Cardinfo> cardinfo { get; set; }
+        public List<Unamepass> Unamepass { get; set; }
+        public List<Cardinfo> Cardinfo { get; set; }
     }
 
     public class FileData
     {
-        public Mydata mydata { get; set; }
+        public Mydata Mydata { get; set; }
     }
 
     public interface IChangeViewvalues
