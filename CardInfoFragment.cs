@@ -40,7 +40,7 @@ namespace DataEncryptAndDecrypt
         {
             base.OnCreate(savedInstanceState);
         }
-
+       
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             encryptView= inflater.Inflate(Resource.Layout.CradInfoLayout, container, false); 
@@ -54,6 +54,7 @@ namespace DataEncryptAndDecrypt
             ciCardNo = encryptView.FindViewById<EditText>(Resource.Id.CiCardNo);
             ciIfscCode = encryptView.FindViewById<EditText>(Resource.Id.CiIfsccode);
             ciEncryptionKeyTextBox = encryptView.FindViewById<EditText>(Resource.Id.CiEncryptionKeyTextBox);
+            
 
             ciValidthrough = encryptView.FindViewById<EditText>(Resource.Id.CiValidthrough);
             ciValidFrom = encryptView.FindViewById<EditText>(Resource.Id.CiValidFrom);
@@ -75,14 +76,21 @@ namespace DataEncryptAndDecrypt
             EncryptbuttonWriteToFile();
             ciTypeOfAccountTextBox.Text = String.Empty;
             ciCardNo.Text = String.Empty;
-            ciIfscCode.Text = String.Empty;
+            ciIfscCode.Text = String.Empty; 
+            ciValidthrough.Text = String.Empty;
+            ciValidFrom.Text = String.Empty;
+            ciNameOnCard.Text = String.Empty;
+            ciThreeDSecureCode.Text = String.Empty;
+            ciCVV.Text = String.Empty;
+            ciNotes.Text = String.Empty;
+            ciEncryptionKeyTextBox.Text = String.Empty;
+
         }  
 
         private void EncryptbuttonWriteToFile()
         {
             System.String account = string.Empty;
             System.String cardNo = string.Empty;
-            System.String password = string.Empty;
             System.String encryptKey = string.Empty;            
             System.String ifscCode = string.Empty;
             System.String validthrough = string.Empty;
@@ -98,7 +106,6 @@ namespace DataEncryptAndDecrypt
 
                 if (System.String.IsNullOrEmpty(ciFileSelectTextBox.Text))
                 {
-                    // myFile = new Java.IO.File(_context.GetExternalFilesDir(null), "EncryptDecrypt.txt");
                     myFile = new Java.IO.File(Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "EncryptDecrypt.txt"));
                     ciFileSelectTextBox.Text = myFile.AbsolutePath;
                     myFile.CreateNewFile();
@@ -116,38 +123,34 @@ namespace DataEncryptAndDecrypt
                     myFile = new Java.IO.File(ciFileSelectTextBox.Text);
                 }
 
-
                 if ((!System.String.IsNullOrEmpty(ciTypeOfAccountTextBox.Text) || !System.String.IsNullOrWhiteSpace(ciTypeOfAccountTextBox.Text)) &&
                     (!System.String.IsNullOrEmpty(ciEncryptionKeyTextBox.Text) || !System.String.IsNullOrWhiteSpace(ciEncryptionKeyTextBox.Text)))
                 {
+                    encryptKey = ciEncryptionKeyTextBox.Text;
                     account = ciTypeOfAccountTextBox.Text;
-                    cardNo = EncryptPassword(ciCardNo.Text, ciEncryptionKeyTextBox.Text);
-                    password = EncryptPassword(ciIfscCode.Text, ciEncryptionKeyTextBox.Text);
-                    encryptKey = ciEncryptionKeyTextBox.Text;                   
+                    cardNo = EncryptPassword(ciCardNo.Text, encryptKey);
+                    ifscCode = EncryptPassword(ciIfscCode.Text, encryptKey);                                      
+                    validthrough = EncryptPassword(ciValidthrough.Text, encryptKey);
+                    validFrom = EncryptPassword(ciValidFrom.Text, encryptKey);
+                    nameOnCard = EncryptPassword(ciNameOnCard.Text, encryptKey);
+                    threeDSecureCode = EncryptPassword(ciThreeDSecureCode.Text, encryptKey);
+                    cVV = EncryptPassword(ciCVV.Text, encryptKey);
+                    notes = EncryptPassword(ciNotes.Text, encryptKey);
 
-                    //if (!myFile.Exists())
-                    //{ 
-                    //    CommonMethods.MFileData.mydata.unamepass.Add(new Unamepass() {
-                    //        UserName= userName,
-                    //        Password= password,
-                    //        Source= account
-                    //    });
-
-                    //    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
-
-                    //    Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
-                    //}
-                    //if
-                    //{
-                 var index = MFileData.Mydata.Unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + cardNo));
+                    var searchdata = account.ToString().ToUpper() + "," + cardNo;
+                    var index = MFileData.Mydata.Cardinfo.FindIndex(x => (x.Source+','+ x.CardNo).Equals(searchdata));
 
                 if (index != -1)
                 {
-                    MessageDialog("Updaing", "Old Password Will Replace With New One", _context);
+                    MessageDialog("Updaing", "Old Data Will Replace With New One", _context);                    
 
-                    var searchdata = account.ToString().ToUpper() + "," + cardNo;
-
-                    CommonMethods.MFileData.Mydata.Unamepass[index].Password = password;
+                    CommonMethods.MFileData.Mydata.Cardinfo[index].IFSCCODE = ifscCode;
+                    CommonMethods.MFileData.Mydata.Cardinfo[index].Validthrough = validthrough;
+                    CommonMethods.MFileData.Mydata.Cardinfo[index].ValidFrom = validFrom;
+                    CommonMethods.MFileData.Mydata.Cardinfo[index].NameOnCard = nameOnCard;
+                    CommonMethods.MFileData.Mydata.Cardinfo[index].ThreeDSecureCode = threeDSecureCode;
+                    CommonMethods.MFileData.Mydata.Cardinfo[index].CVV = cVV;
+                    CommonMethods.MFileData.Mydata.Cardinfo[index].Notes = notes;
 
                     System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
                             
@@ -155,22 +158,35 @@ namespace DataEncryptAndDecrypt
                 }
                 else
                 {
-                    CommonMethods.MFileData.Mydata.Unamepass.Add(new Unamepass()
+                    CommonMethods.MFileData.Mydata.Cardinfo.Add(new Cardinfo()
                     {
                         Source = account.ToUpper(),
-                        UserName = cardNo,
-                        Password = password
+                        CardNo = cardNo,
+                        IFSCCODE = ifscCode,
+                        Validthrough = validthrough,
+                        ValidFrom = validFrom,
+                        NameOnCard = nameOnCard,
+                        ThreeDSecureCode = threeDSecureCode,
+                        CVV = cVV,
+                        Notes = notes
                     });
 
                     System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
                     Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
 
                 }
-                   // }
                 }
                 else
                 {
-                    MessageDialog("info", "please enter data in all fileds", _context);
+                    if (System.String.IsNullOrEmpty(ciEncryptionKeyTextBox.Text))
+                    {
+                        ciEncryptionKeyTextBox.SetError("Encryption key Should not Blank", null);
+                    }
+                    if (System.String.IsNullOrEmpty(ciTypeOfAccountTextBox.Text))
+                    {
+                        ciTypeOfAccountTextBox.SetError("Type of Account Should not Blank", null);
+                    }
+
                 }
             }
             catch (System.IO.IOException e)

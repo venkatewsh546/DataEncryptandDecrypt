@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/CardInfoLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
     android:orientation="vertical">
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/CiFileSelectTextBox"
@@ -18,28 +22,47 @@
             android:layout_height="wrap_content"
             android:focusable="true" />
     </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+    <TableRow
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/CiTypeOfAccounTextBox"
-            android:layout_height="wrap_content"
-            android:hint="TypeOfAccount"
-            android:inputType="text"
-            android:layout_width="match_parent" />
-    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_weight=".50"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/CiEncryptionKeyTextBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Encryption Key"
+                android:layout_below="@+id/CiFileSelectTextBox" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_weight=".50"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/CiTypeOfAccounTextBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="TypeOfAccount"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+    </TableRow>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/CiCardNo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="CardNo"
-            android:inputType="text"
-            android:layout_width="match_parent" />
+            android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/CiIfsccode"
@@ -48,58 +71,74 @@
             android:inputType="text"
             android:layout_width="match_parent" />
     </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+    <TableRow
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/CiValidthrough"
-            android:layout_height="wrap_content"
-            android:hint="Valid Through"
-            android:inputType="text"
-            android:layout_width="match_parent" />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_weight=".40"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/CiValidFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Valid From"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_weight=".40"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/CiValidthrough"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Valid Through"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_weight=".50"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/CiCVV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="CVV"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+    </TableRow>
+    <TableRow
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/CiValidFrom"
-            android:layout_height="wrap_content"
-            android:hint="Valid From"
-            android:inputType="text"
-            android:layout_width="match_parent" />
-    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="1dp"
+            android:layout_weight=".50"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/CiThreeDSecureCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="3D SecureCode"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="1dp"
+            android:layout_weight=".50"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/CiNameOnCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name On Card"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+    </TableRow>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/CiNameOnCard"
-            android:layout_height="wrap_content"
-            android:hint="Name On Card"
-            android:inputType="text"
-            android:layout_width="match_parent" />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/CiThreeDSecureCode"
-            android:layout_height="wrap_content"
-            android:hint="3D SecureCode"
-            android:inputType="text"
-            android:layout_width="match_parent" />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/CiCVV"
-            android:layout_height="wrap_content"
-            android:hint="CVV"
-            android:inputType="text"
-            android:layout_width="match_parent" />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/CiNotes"
@@ -108,34 +147,25 @@
             android:inputType="text"
             android:layout_width="match_parent" />
     </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+    <TableRow
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/CiEncryptionKeyTextBox"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Encryption Key"
-            android:layout_width="match_parent" />
-    </android.support.design.widget.TextInputLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
         <Button
             android:id="@+id/CiEncryptButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight=".50"
             android:clickable="true"
             android:focusable="true"
             android:text="Encrypt" />
         <Button
             android:id="@+id/CiResetButton"
             android:layout_width="wrap_content"
+            android:layout_weight=".50"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:text="Reset"
             android:focusable="true" />
-    </LinearLayout>
+    </TableRow>
 </LinearLayout>

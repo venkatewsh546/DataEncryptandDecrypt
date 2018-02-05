@@ -40,6 +40,7 @@ namespace DataEncryptAndDecrypt
         DecryptFragment decryptFragment;
         DeleteFragment deleteFragment;
         ChangekeyFragment changekeyFragment;
+        CardInfoFragment cardInfoFragment;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -52,6 +53,7 @@ namespace DataEncryptAndDecrypt
             decryptFragment = new DecryptFragment();
             deleteFragment = new DeleteFragment();
             changekeyFragment = new ChangekeyFragment();
+            cardInfoFragment = new CardInfoFragment();
 
             mToolbar = FindViewById<SupportToolbar>(Resource.Id.toolbar);
             mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerlayout);
@@ -62,10 +64,11 @@ namespace DataEncryptAndDecrypt
            
             mLeftDataSet = new List<string>
             {
-                "Encrypt Data",
+                "Encrypt User Data",
+                "Encrypt Card Data",
                 "Decrypt Data",
                 "Delete Data",
-                "Change key"               
+                "Change key"     
             };
 
             mLeftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mLeftDataSet);
@@ -104,9 +107,18 @@ namespace DataEncryptAndDecrypt
                     ft.Replace(Resource.Id.DynamicFragments, encryptFragment);
                     ft.Commit();
                     mCurrentFragment = encryptFragment;
-                    CommonMethods.Fragmentobj = new EncryptFragment();
+                    CommonMethods.Fragmentobj = encryptFragment;
                     break;
                 case 1:
+                    ft.Dispose();
+                    ft = SupportFragmentManager.BeginTransaction();
+                    ft.Detach(mCurrentFragment).Attach(mCurrentFragment);
+                    ft.Replace(Resource.Id.DynamicFragments, cardInfoFragment);
+                    ft.Commit();
+                    mCurrentFragment = cardInfoFragment;
+                    CommonMethods.Fragmentobj = cardInfoFragment;
+                    break;
+                case 2:
                     ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
                     ft.Detach(mCurrentFragment).Attach(mCurrentFragment);
@@ -115,7 +127,7 @@ namespace DataEncryptAndDecrypt
                     mCurrentFragment = decryptFragment;
                     CommonMethods.Fragmentobj = decryptFragment;
                     break;
-                case 2:
+                case 3:
                     ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
                     ft.Detach(mCurrentFragment).Attach(mCurrentFragment);
@@ -124,10 +136,9 @@ namespace DataEncryptAndDecrypt
                     mCurrentFragment = deleteFragment;
                     CommonMethods.Fragmentobj = deleteFragment;
                     break;
-                case 3:
+                case 4:
                     ft.Dispose();
                     ft = SupportFragmentManager.BeginTransaction();
-
                     ft.Replace(Resource.Id.DynamicFragments, changekeyFragment);
                     ft.Commit();
                     mCurrentFragment = changekeyFragment;

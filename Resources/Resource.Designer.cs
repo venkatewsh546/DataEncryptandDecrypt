@@ -1834,44 +1834,44 @@ namespace DataEncryptAndDecrypt
 			// aapt resource value: 0x7f060098
 			public const int ChangeKeyButton = 2131099800;
 			
-			// aapt resource value: 0x7f060072
-			public const int CiCVV = 2131099762;
+			// aapt resource value: 0x7f060071
+			public const int CiCVV = 2131099761;
 			
-			// aapt resource value: 0x7f06006c
-			public const int CiCardNo = 2131099756;
+			// aapt resource value: 0x7f06006d
+			public const int CiCardNo = 2131099757;
 			
 			// aapt resource value: 0x7f060075
 			public const int CiEncryptButton = 2131099765;
 			
-			// aapt resource value: 0x7f060074
-			public const int CiEncryptionKeyTextBox = 2131099764;
+			// aapt resource value: 0x7f06006b
+			public const int CiEncryptionKeyTextBox = 2131099755;
 			
 			// aapt resource value: 0x7f06006a
 			public const int CiFileSelectTextBox = 2131099754;
 			
-			// aapt resource value: 0x7f06006d
-			public const int CiIfsccode = 2131099757;
-			
-			// aapt resource value: 0x7f060070
-			public const int CiNameOnCard = 2131099760;
+			// aapt resource value: 0x7f06006e
+			public const int CiIfsccode = 2131099758;
 			
 			// aapt resource value: 0x7f060073
-			public const int CiNotes = 2131099763;
+			public const int CiNameOnCard = 2131099763;
+			
+			// aapt resource value: 0x7f060074
+			public const int CiNotes = 2131099764;
 			
 			// aapt resource value: 0x7f060076
 			public const int CiResetButton = 2131099766;
 			
-			// aapt resource value: 0x7f060071
-			public const int CiThreeDSecureCode = 2131099761;
+			// aapt resource value: 0x7f060072
+			public const int CiThreeDSecureCode = 2131099762;
 			
-			// aapt resource value: 0x7f06006b
-			public const int CiTypeOfAccounTextBox = 2131099755;
+			// aapt resource value: 0x7f06006c
+			public const int CiTypeOfAccounTextBox = 2131099756;
 			
 			// aapt resource value: 0x7f06006f
 			public const int CiValidFrom = 2131099759;
 			
-			// aapt resource value: 0x7f06006e
-			public const int CiValidthrough = 2131099758;
+			// aapt resource value: 0x7f060070
+			public const int CiValidthrough = 2131099760;
 			
 			// aapt resource value: 0x7f060095
 			public const int CkFileSelectEditBox = 2131099797;
