@@ -30,8 +30,7 @@ namespace DataEncryptAndDecrypt
 
         public void Changevalues()
         {
-            ckFileSelectTextBox.Text = Filepath;
-            
+            ckFileSelectTextBox.Text = Filepath;            
         }
 
         public override void OnCreate(Bundle savedInstanceState)

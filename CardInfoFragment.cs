@@ -108,14 +108,21 @@ namespace DataEncryptAndDecrypt
                 {
                     myFile = new Java.IO.File(Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "EncryptDecrypt.txt"));
                     ciFileSelectTextBox.Text = myFile.AbsolutePath;
-                    myFile.CreateNewFile();
 
-                    MFileData = new FileData
+                    if (myFile.Exists())
                     {
-                        Mydata = new Mydata()
-                    };
-                    MFileData.Mydata.Unamepass = new List<Unamepass>();
-                    MFileData.Mydata.Cardinfo = new List<Cardinfo>();
+                        GetDataFromJson(myFile.AbsolutePath);
+                    }
+                    else
+                    {
+                        myFile.CreateNewFile();
+                        MFileData = new FileData
+                        {
+                            Mydata = new Mydata()
+                        };
+                        MFileData.Mydata.Unamepass = new List<Unamepass>();
+                        MFileData.Mydata.Cardinfo = new List<Cardinfo>();
+                    }
 
                 }
                 else
@@ -152,7 +159,7 @@ namespace DataEncryptAndDecrypt
                     CommonMethods.MFileData.Mydata.Cardinfo[index].CVV = cVV;
                     CommonMethods.MFileData.Mydata.Cardinfo[index].Notes = notes;
 
-                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
+                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
                             
                     Toast.MakeText(_context, "data updated successfully", ToastLength.Short).Show();
                 }
@@ -171,7 +178,7 @@ namespace DataEncryptAndDecrypt
                         Notes = notes
                     });
 
-                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
+                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
                     Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
 
                 }

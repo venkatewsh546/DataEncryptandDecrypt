@@ -76,15 +76,22 @@ namespace DataEncryptAndDecrypt
                     // myFile = new Java.IO.File(_context.GetExternalFilesDir(null), "EncryptDecrypt.txt");
                     myFile = new Java.IO.File(Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "EncryptDecrypt.txt"));
                     elFileSelectTextBox.Text = myFile.AbsolutePath;
-                    myFile.CreateNewFile();
 
-                    MFileData = new FileData
+                    if (myFile.Exists())
                     {
-                        Mydata = new Mydata()
-                    };
-                    MFileData.Mydata.Unamepass = new List<Unamepass>();
-                    MFileData.Mydata.Cardinfo = new List<Cardinfo>();
+                        GetDataFromJson(myFile.AbsolutePath);
+                    }
+                    else
+                    {
+                        myFile.CreateNewFile();
 
+                        MFileData = new FileData
+                        {
+                            Mydata = new Mydata()
+                        };
+                        MFileData.Mydata.Unamepass = new List<Unamepass>();
+                        MFileData.Mydata.Cardinfo = new List<Cardinfo>();
+                    }   
                 }
                 else
                 {
@@ -102,20 +109,6 @@ namespace DataEncryptAndDecrypt
                     password = EncryptPassword(elPasswordTextBox.Text, elEncryptionKeyTextBox.Text);
                     encryptKey = elEncryptionKeyTextBox.Text;                   
 
-                    //if (!myFile.Exists())
-                    //{ 
-                    //    CommonMethods.MFileData.mydata.unamepass.Add(new Unamepass() {
-                    //        UserName= userName,
-                    //        Password= password,
-                    //        Source= account
-                    //    });
-
-                    //    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
-
-                    //    Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
-                    //}
-                    //if
-                    //{
                  var index = MFileData.Mydata.Unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
 
                 if (index != -1)
@@ -124,7 +117,7 @@ namespace DataEncryptAndDecrypt
 
                     var searchdata = account.ToString().ToUpper() + "," + userName;
 
-                    CommonMethods.MFileData.Mydata.Unamepass[index].Password = password;
+                        MFileData.Mydata.Unamepass[index].Password = password;
 
                     System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
                             
@@ -132,18 +125,17 @@ namespace DataEncryptAndDecrypt
                 }
                 else
                 {
-                    CommonMethods.MFileData.Mydata.Unamepass.Add(new Unamepass()
+                 MFileData.Mydata.Unamepass.Add(new Unamepass()
                     {
                         Source = account.ToUpper(),
                         UserName = userName,
                         Password = password
                     });
 
-                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
+                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
                     Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
 
                 }
-                   // }
                 }
                 else
                 {
