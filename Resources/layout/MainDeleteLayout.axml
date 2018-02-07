@@ -16,8 +16,8 @@
             android:inputType="none"
             android:cursorVisible="true"
             android:layout_height="wrap_content"
-            android:focusable="true"/>
-    </android.support.design.widget.TextInputLayout>  
+            android:focusable="true" />
+    </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,9 +26,28 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="EncryptionKey"
-            android:layout_width="match_parent"/>
-    </android.support.design.widget.TextInputLayout>  
-  <Spinner
+            android:layout_width="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+    <RadioGroup
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DelDataTypeRadioGroup">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="CardInfo"
+            android:id="@+id/DelCardInfoRadioButton" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AccountInfo"
+            android:id="@+id/DelAccountInfoRadioButton" />
+    </RadioGroup>
+    <Spinner
         android:id="@+id/DelTypeofAccountSpinner"
         android:layout_width="match_parent"
         android:layout_height="40dp" />

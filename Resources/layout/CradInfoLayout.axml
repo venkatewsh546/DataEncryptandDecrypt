@@ -28,23 +28,24 @@
         android:layout_height="wrap_content">
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_weight=".50"
+            android:layout_weight="1"
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/CiEncryptionKeyTextBox"
                 android:layout_width="match_parent"
+                android:layout_weight=".50"
                 android:layout_height="wrap_content"
-                android:hint="Encryption Key"
-                android:layout_below="@+id/CiFileSelectTextBox" />
+                android:hint="Encryption Key" />
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_weight=".50"
+            android:layout_weight="1"
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/CiTypeOfAccounTextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight=".50"
                 android:hint="TypeOfAccount"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>

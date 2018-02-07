@@ -41,7 +41,6 @@ namespace DataEncryptAndDecrypt
             elFileSelectTextBox.SetRawInputType(Android.Text.InputTypes.Null);
             elFileSelectTextBox.SetCursorVisible(true);
             elFileSelectTextBox.Click += DisplayFilesAndFolders;
-            elFileSelectTextBox.Text = Filepath;
 
             elTypeOfAccountTextBox = encryptView.FindViewById<EditText>(Resource.Id.ElTypeOfAccounTextBox);
             elUserNameTextBox = encryptView.FindViewById<EditText>(Resource.Id.ElUserNameTextBox);
@@ -79,8 +78,10 @@ namespace DataEncryptAndDecrypt
                     elFileSelectTextBox.Text = myFile.AbsolutePath;
                     myFile.CreateNewFile();
 
-                    MFileData = new FileData();
-                    MFileData.Mydata = new Mydata();
+                    MFileData = new FileData
+                    {
+                        Mydata = new Mydata()
+                    };
                     MFileData.Mydata.Unamepass = new List<Unamepass>();
                     MFileData.Mydata.Cardinfo = new List<Cardinfo>();
 

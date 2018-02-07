@@ -18,6 +18,25 @@
             android:layout_height="wrap_content"
             android:focusable="true" />
     </android.support.design.widget.TextInputLayout>
+    <RadioGroup
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DlDataTypeRadioGroup">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="CardInfo"
+            android:id="@+id/DlCardInfoRadioButton" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AccountInfo"
+            android:id="@+id/DlAccountInfoRadioButton" />
+    </RadioGroup>
     <Spinner
         android:id="@+id/DlTypeofAccountSpinner"
         android:layout_width="match_parent"

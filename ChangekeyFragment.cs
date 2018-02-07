@@ -24,6 +24,9 @@ namespace DataEncryptAndDecrypt
         EditText ckoldkey;
         EditText cknewkey;
         Button changeEncryptKeyButton;
+        RadioGroup ckdataTypeRadioGroup;
+        RadioButton ckdataTypeRadiobutton;
+        int selectedId;
 
         public void Changevalues()
         {
@@ -51,65 +54,65 @@ namespace DataEncryptAndDecrypt
             changeEncryptKeyButton = changeKeyView.FindViewById<Button>(Resource.Id.ChangeKeyButton);
             changeEncryptKeyButton.Click += ChangeEncryptKeyButtonClick;
 
+            ckdataTypeRadioGroup = changeKeyView.FindViewById<RadioGroup>(Resource.Id.CkDataTypeRadioGroup);
+            ckdataTypeRadioGroup.CheckedChange += ChnageinDatatype;
+            selectedId = ckdataTypeRadioGroup.CheckedRadioButtonId;
+            ckdataTypeRadiobutton = (RadioButton)changeKeyView.FindViewById(selectedId);
+
             return changeKeyView;
         }
 
+        private void ChnageinDatatype(object sender, RadioGroup.CheckedChangeEventArgs e)
+        {
+            selectedId = ckdataTypeRadioGroup.CheckedRadioButtonId;
+            ckdataTypeRadiobutton = (RadioButton)changeKeyView.FindViewById(selectedId);
+        }
 
         private void ChangeEncryptKeyButtonClick(object sender, EventArgs e)
         {
             try
             {
-                FileData nFileData = CommonMethods.MFileData;
-
                 if (ckFileSelectTextBox.Text.Length > 0 &&
                     (!System.String.IsNullOrEmpty(cknewkey.Text) || !System.String.IsNullOrWhiteSpace(cknewkey.Text)) &&
                     (!System.String.IsNullOrEmpty(ckoldkey.Text) || !System.String.IsNullOrWhiteSpace(ckoldkey.Text))
                     )
                 {
-                    Unamepass unamepassdata;
-
-                    for (int index = 0; index <= nFileData.Mydata.Unamepass.Count-1; index++)
+                    if (ckdataTypeRadiobutton.Text == "CardInfo")
                     {
-                        unamepassdata = nFileData.Mydata.Unamepass[index];
-                        nFileData.Mydata.Unamepass[index].UserName = EncryptPassword(DecryptPassword(unamepassdata.UserName, ckoldkey.Text), cknewkey.Text);
-                        nFileData.Mydata.Unamepass[index].Password = EncryptPassword(DecryptPassword(unamepassdata.Password, ckoldkey.Text), cknewkey.Text);
+                        Cardinfo cardinfo;
+                        for (int index = 0; index <= MFileData.Mydata.Cardinfo.Count - 1; index++)
+                        {
+                            cardinfo= MFileData.Mydata.Cardinfo[index];
+                            MFileData.Mydata.Cardinfo[index].Source             = cardinfo.Source;
+                            MFileData.Mydata.Cardinfo[index].CardNo             = EncryptPassword(DecryptPassword(cardinfo.CardNo, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Cardinfo[index].IFSCCODE           = EncryptPassword(DecryptPassword(cardinfo.IFSCCODE, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Cardinfo[index].Validthrough       = EncryptPassword(DecryptPassword(cardinfo.Validthrough, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Cardinfo[index].ValidFrom          = EncryptPassword(DecryptPassword(cardinfo.ValidFrom, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Cardinfo[index].NameOnCard         = EncryptPassword(DecryptPassword(cardinfo.NameOnCard, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Cardinfo[index].ThreeDSecureCode   = EncryptPassword(DecryptPassword(cardinfo.ThreeDSecureCode, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Cardinfo[index].CVV                = EncryptPassword(DecryptPassword(cardinfo.CVV, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Cardinfo[index].Notes              = EncryptPassword(DecryptPassword(cardinfo.Notes, ckoldkey.Text), cknewkey.Text);
+                        
+                        }
                     }
+                    else
+                    {
+                        Unamepass unamepassdata;
+                        for (int index = 0; index <= MFileData.Mydata.Unamepass.Count - 1; index++)
+                        {
+                            unamepassdata = MFileData.Mydata.Unamepass[index];
+                            MFileData.Mydata.Unamepass[index].UserName = EncryptPassword(DecryptPassword(unamepassdata.UserName, ckoldkey.Text), cknewkey.Text);
+                            MFileData.Mydata.Unamepass[index].Password = EncryptPassword(DecryptPassword(unamepassdata.Password, ckoldkey.Text), cknewkey.Text);
+                        }
 
+                    }                    
 
-                    //foreach (Unamepass str in _fileData.mydata.unamepass)
-                    //{
-                    //    newkeyFileData.mydata.unamepass.Add(new Unamepass()
-                    //    {
-                    //        Source = str.Source,
-                    //        UserName = EncryptPassword(DecryptPassword(str.UserName, ckoldkey.Text), cknewkey.Text),
-                    //        Password = EncryptPassword(DecryptPassword(str.Password, ckoldkey.Text), cknewkey.Text)
-                    //    });
-                    //}
-
-
-                //foreach(Cardinfo ci in _fileData.mydata.cardinfo)
-                //{
-                //    newkeyFileData.mydata.cardinfo.Add(new Cardinfo()
-                //    {
-                //    Source = ci.Source,                            
-                //    CardNo=EncryptPassword(DecryptPassword(ci.CardNo, ckoldkey.Text), cknewkey.Text),
-                //    IFSCCODE = EncryptPassword(DecryptPassword(ci.IFSCCODE, ckoldkey.Text), cknewkey.Text),
-                //    Validthrough = EncryptPassword(DecryptPassword(ci.Validthrough, ckoldkey.Text), cknewkey.Text),
-                //    ValidFrom = EncryptPassword(DecryptPassword(ci.ValidFrom, ckoldkey.Text), cknewkey.Text),
-                //    NameOnCard = EncryptPassword(DecryptPassword(ci.NameOnCard, ckoldkey.Text), cknewkey.Text),
-                //    ThreeDSecureCode = EncryptPassword(DecryptPassword(ci.ThreeDSecureCode, ckoldkey.Text), cknewkey.Text),
-                //    CVV = EncryptPassword(DecryptPassword(ci.CVV, ckoldkey.Text), cknewkey.Text),
-                //    Notes = EncryptPassword(DecryptPassword(ci.Notes, ckoldkey.Text), cknewkey.Text)
-                //    });
-                //}
-
-
-                System.IO.File.WriteAllText(CommonMethods.Filepath.ToString(), JsonConvert.SerializeObject(nFileData));
-                CommonMethods.MessageDialog("Info", "Success" + System.Environment.NewLine + "Key Changed Successfully", _context);
+                System.IO.File.WriteAllText(Filepath.ToString(), JsonConvert.SerializeObject(MFileData));
+                    MessageDialog("Info", "Success" + System.Environment.NewLine + "Key Changed Successfully", _context);
                 }
                 else
                 {
-                    CommonMethods.MessageDialog("Info", "Error" + System.Environment.NewLine + "Some Fileds are Empty", _context);
+                    MessageDialog("Info", "Error" + System.Environment.NewLine + "Some Fileds are Empty", _context);
                 }
             }
             catch (Exception Ex)

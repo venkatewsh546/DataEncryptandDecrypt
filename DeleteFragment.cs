@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Text;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
@@ -24,11 +18,14 @@ namespace DataEncryptAndDecrypt
         Spinner delTypeofAccountSpinner;
         Spinner delUserNameSpinner;
         Button deleteDataButton;
+        RadioGroup deldataTypeRadioGroup;
+        RadioButton deldataTypeRadiobutton;
+        int selectedId;
 
         public void Changevalues()
         {
             delFileSelectTextBox.Text = Filepath;
-            Spinner(CommonMethods.MFileData.Mydata.Unamepass, delTypeofAccountSpinner);
+            Spinner(MFileData.Mydata, delTypeofAccountSpinner, deldataTypeRadiobutton.Text);
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -46,22 +43,41 @@ namespace DataEncryptAndDecrypt
             delFileSelectTextBox.Click += DisplayFilesAndFolders;
             delFileSelectTextBox.NextFocusDownId = Resource.Id.DelEncryptionKeyTextBox;
 
-
             delEncryptionKeyTextBox = deleteView.FindViewById<EditText>(Resource.Id.DelEncryptionKeyTextBox);
-
             delEncryptionKeyTextBox.TextChanged += DelEncryptionKeyTextBoxtextChnagelistener;
 
             delTypeofAccountSpinner = deleteView.FindViewById<Spinner>(Resource.Id.DelTypeofAccountSpinner);
             delTypeofAccountSpinner.ItemSelected += DelTypeOfAcoountSpinnerItemClick;
             delTypeofAccountSpinner.Enabled = false;
+
             delUserNameSpinner = deleteView.FindViewById<Spinner>(Resource.Id.DelUserNameSpinner);
             delUserNameSpinner.Enabled = false;
 
             deleteDataButton = deleteView.FindViewById<Button>(Resource.Id.DeleteDataButton);
             deleteDataButton.Click += DeleteButtonClick;
 
+            deldataTypeRadioGroup = deleteView.FindViewById<RadioGroup>(Resource.Id.DelDataTypeRadioGroup);
+            deldataTypeRadioGroup.CheckedChange += ChnageinDatatype;
+            selectedId = deldataTypeRadioGroup.CheckedRadioButtonId;
+            deldataTypeRadiobutton = (RadioButton)deleteView.FindViewById(selectedId);
+
             return deleteView;
         }
+
+        private void ChnageinDatatype(object sender, RadioGroup.CheckedChangeEventArgs e)
+        {
+            selectedId = deldataTypeRadioGroup.CheckedRadioButtonId;
+            deldataTypeRadiobutton = (RadioButton)deleteView.FindViewById(selectedId);
+            if (delFileSelectTextBox.Text.Length > 0)
+            {
+                Spinner(MFileData.Mydata, delTypeofAccountSpinner, deldataTypeRadiobutton.Text);
+            }
+            else
+            {
+                MessageDialog(title: "Error", data: "Please Select File First", context: _context);
+            }
+        }
+
 
         private void DelEncryptionKeyTextBoxtextChnagelistener(object sender, TextChangedEventArgs e)
         {
@@ -81,14 +97,29 @@ namespace DataEncryptAndDecrypt
                    (!System.String.IsNullOrEmpty(delEncryptionKeyTextBox.Text) || !System.String.IsNullOrWhiteSpace(delEncryptionKeyTextBox.Text))
                    )
                 {
+                    if (deldataTypeRadiobutton.Text == "CardInfo")
+                    {
+                        var cindex = MFileData.Mydata.Cardinfo.FindIndex(x => (x.Source + ',' + x.CardNo).Equals(delTypeofAccountSpinner.SelectedItem.ToString().ToUpper() + "," + EncryptPassword(delUserNameSpinner.SelectedItem.ToString().Substring(delUserNameSpinner.SelectedItem.ToString().IndexOf(':')+1).Trim(), delEncryptionKeyTextBox.Text)));
 
-                    var index = CommonMethods.MFileData.Mydata.Unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(delTypeofAccountSpinner.SelectedItem.ToString().ToUpper() + "," + EncryptPassword(delUserNameSpinner.SelectedItem.ToString(), delEncryptionKeyTextBox.Text)));
-
-                    CommonMethods.MFileData.Mydata.Unamepass.RemoveAt(index);
-
-                    System.IO.File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(CommonMethods.MFileData));
-                    Spinner(CommonMethods.MFileData.Mydata.Unamepass, delTypeofAccountSpinner);
-                    Toast.MakeText(_context, "data Deleted successfully", ToastLength.Short).Show();
+                        if (cindex != -1)
+                        {
+                            MFileData.Mydata.Cardinfo.RemoveAt(cindex);
+                            System.IO.File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(MFileData));
+                            Spinner(MFileData.Mydata, delTypeofAccountSpinner, deldataTypeRadiobutton.Text);
+                            Toast.MakeText(_context, "data Deleted successfully", ToastLength.Short).Show();
+                        }
+                    }
+                    else
+                    {
+                        var uindex = MFileData.Mydata.Unamepass.FindIndex(x => (x.Source + ',' + x.UserName).Equals(delTypeofAccountSpinner.SelectedItem.ToString().ToUpper() + "," + EncryptPassword(delUserNameSpinner.SelectedItem.ToString(), delEncryptionKeyTextBox.Text)));
+                        if (uindex != -1)
+                        {
+                            MFileData.Mydata.Unamepass.RemoveAt(uindex);
+                            System.IO.File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(MFileData));
+                            Spinner(MFileData.Mydata, delTypeofAccountSpinner, deldataTypeRadiobutton.Text);
+                            Toast.MakeText(_context, "data Deleted successfully", ToastLength.Short).Show();
+                        }
+                    }
                 }
                 else
                 {
@@ -103,36 +134,39 @@ namespace DataEncryptAndDecrypt
 
         private void DelTypeOfAcoountSpinnerItemClick(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            //if (delEncryptionKeyTextBox.Text.Length == 0 || delFileSelectTextBox.Text.Length == 0
-            //     && !delTypeofAccountSpinner.SelectedItem.ToString().Equals("<<<< Select Item >>>>"))
-            //{
-            //    MessageDialog("Info", "select File/enter Encryption key Before Selecting Item",_context);
-            //    delTypeofAccountSpinner.SetSelection(0);
-
-            //}
-            //else
             if (delEncryptionKeyTextBox.Text.Length > 0 || delFileSelectTextBox.Text.Length > 0
                  && !delTypeofAccountSpinner.SelectedItem.ToString().Equals("<<<< Select Item >>>>"))
             {
                 delUserNameSpinner.Enabled = true;
-                UserNameSpinner(CommonMethods.MFileData.Mydata.Unamepass, ((Spinner)sender).GetItemAtPosition(e.Position).ToString());
+                UserNameSpinner(MFileData.Mydata, ((Spinner)sender).GetItemAtPosition(e.Position).ToString());
             }
 
         }
 
-        private void UserNameSpinner(List<Unamepass> dataFromFile, String typeofaccount)
+        private void UserNameSpinner(Mydata selectdataset, String typeofaccount)
         {
             var userNameList = new List<String>();
             try
             {
-                foreach (Unamepass str in dataFromFile)
+                if (deldataTypeRadiobutton.Text == "CardInfo")
                 {
-                    if (str.Source.ToUpper().Equals(typeofaccount))
+                    var selectedCardInfo = MFileData.Mydata.Cardinfo.FindAll(x => x.Source == delTypeofAccountSpinner.SelectedItem.ToString());
+
+                    foreach (Cardinfo str in selectedCardInfo)
+                    {
+                        userNameList.Add("CardNo: " + DecryptPassword(str.CardNo, delEncryptionKeyTextBox.Text));
+                    }
+                }
+                else
+                {
+                    var selectedUnamepass = MFileData.Mydata.Unamepass.FindAll(x => x.Source == delTypeofAccountSpinner.SelectedItem.ToString());
+
+                    foreach (Unamepass str in selectedUnamepass)
                     {
                         if (!userNameList.Contains(DecryptPassword(str.UserName, delEncryptionKeyTextBox.Text)))
                         {
                             userNameList.Add(DecryptPassword(str.UserName, delEncryptionKeyTextBox.Text));
-                        }
+                        }                    
                     }
                 }
 

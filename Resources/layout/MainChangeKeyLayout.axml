@@ -21,6 +21,25 @@
             android:shadowDy="5.0"
             android:shadowRadius="3.0" />
     </android.support.design.widget.TextInputLayout>
+  <RadioGroup
+       android:minWidth="25px"
+       android:minHeight="25px"
+       android:orientation="horizontal"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/CkDataTypeRadioGroup">
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="CardInfo"
+        android:id="@+id/CkCardInfoRadioButton" />
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AccountInfo"
+        android:id="@+id/CkAccountInfoRadioButton" />
+  </RadioGroup>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

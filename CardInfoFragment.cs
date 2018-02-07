@@ -11,12 +11,13 @@ using System.Text;
 using static Android.App.ActionBar;
 using Newtonsoft.Json;
 using System.IO;
+using Android.Support.Design.Widget;
 
 namespace DataEncryptAndDecrypt
 {
     public sealed class CardInfoFragment : Android.Support.V4.App.Fragment, IChangeViewvalues
     {
-        View encryptView;
+        View cardInfoView;
         EditText ciFileSelectTextBox;
         EditText ciTypeOfAccountTextBox;
         EditText ciCardNo;
@@ -43,38 +44,37 @@ namespace DataEncryptAndDecrypt
        
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            encryptView= inflater.Inflate(Resource.Layout.CradInfoLayout, container, false); 
-            ciFileSelectTextBox = encryptView.FindViewById<EditText>(Resource.Id.CiFileSelectTextBox);
+            cardInfoView= inflater.Inflate(Resource.Layout.CradInfoLayout, container, false); 
+            ciFileSelectTextBox = cardInfoView.FindViewById<EditText>(Resource.Id.CiFileSelectTextBox);
             ciFileSelectTextBox.SetRawInputType(Android.Text.InputTypes.Null);
             ciFileSelectTextBox.SetCursorVisible(true);
             ciFileSelectTextBox.Click += DisplayFilesAndFolders;
-            ciFileSelectTextBox.Text = Filepath;
 
-            ciTypeOfAccountTextBox = encryptView.FindViewById<EditText>(Resource.Id.CiTypeOfAccounTextBox);
-            ciCardNo = encryptView.FindViewById<EditText>(Resource.Id.CiCardNo);
-            ciIfscCode = encryptView.FindViewById<EditText>(Resource.Id.CiIfsccode);
-            ciEncryptionKeyTextBox = encryptView.FindViewById<EditText>(Resource.Id.CiEncryptionKeyTextBox);
+            ciTypeOfAccountTextBox = cardInfoView.FindViewById<EditText>(Resource.Id.CiTypeOfAccounTextBox);
+            ciCardNo = cardInfoView.FindViewById<EditText>(Resource.Id.CiCardNo);
+            ciIfscCode = cardInfoView.FindViewById<EditText>(Resource.Id.CiIfsccode);
+            ciEncryptionKeyTextBox = cardInfoView.FindViewById<EditText>(Resource.Id.CiEncryptionKeyTextBox);
             
 
-            ciValidthrough = encryptView.FindViewById<EditText>(Resource.Id.CiValidthrough);
-            ciValidFrom = encryptView.FindViewById<EditText>(Resource.Id.CiValidFrom);
-            ciNameOnCard = encryptView.FindViewById<EditText>(Resource.Id.CiNameOnCard);
-            ciThreeDSecureCode = encryptView.FindViewById<EditText>(Resource.Id.CiThreeDSecureCode);
-            ciCVV = encryptView.FindViewById<EditText>(Resource.Id.CiCVV);
-            ciNotes = encryptView.FindViewById<EditText>(Resource.Id.CiNotes);
+            ciValidthrough = cardInfoView.FindViewById<EditText>(Resource.Id.CiValidthrough);
+            ciValidFrom = cardInfoView.FindViewById<EditText>(Resource.Id.CiValidFrom);
+            ciNameOnCard = cardInfoView.FindViewById<EditText>(Resource.Id.CiNameOnCard);
+            ciThreeDSecureCode = cardInfoView.FindViewById<EditText>(Resource.Id.CiThreeDSecureCode);
+            ciCVV = cardInfoView.FindViewById<EditText>(Resource.Id.CiCVV);
+            ciNotes = cardInfoView.FindViewById<EditText>(Resource.Id.CiNotes);
 
-            ciEncryptButton = encryptView.FindViewById<Button>(Resource.Id.CiEncryptButton);
+            ciEncryptButton = cardInfoView.FindViewById<Button>(Resource.Id.CiEncryptButton);
             ciEncryptButton.Click += EncryptButtonClick;
 
-            ciResetButton= encryptView.FindViewById<Button>(Resource.Id.CiResetButton);
+            ciResetButton= cardInfoView.FindViewById<Button>(Resource.Id.CiResetButton);
 
-            return encryptView;
+            return cardInfoView;
         }
 
         private void EncryptButtonClick(object sender, EventArgs e)
         {
             EncryptbuttonWriteToFile();
-            ciTypeOfAccountTextBox.Text = String.Empty;
+            ciTypeOfAccountTextBox.Text =String.Empty;
             ciCardNo.Text = String.Empty;
             ciIfscCode.Text = String.Empty; 
             ciValidthrough.Text = String.Empty;
