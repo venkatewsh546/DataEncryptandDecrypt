@@ -13,7 +13,6 @@ namespace DataEncryptAndDecrypt
     [Activity(Label = "DataEncryptAndDecrypt", MainLauncher = true, Theme = "@style/AppTheme")]
     public class MainAppScreen : AppCompatActivity
     {
-
         private SupportToolbar mToolbar;
         private MyActionBarDrawerToggle mDrawerToggle;
         private DrawerLayout mDrawerLayout;
