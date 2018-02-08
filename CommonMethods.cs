@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using System.Security.Cryptography;
 using System.IO;
-using Java.IO;
-
 using static Android.App.ActionBar;
 using Newtonsoft.Json;
 
@@ -19,7 +13,7 @@ namespace DataEncryptAndDecrypt
 {
     public static class CommonMethods
     {
-        public static Android.Content.Context _context;
+        public static Context _context;
         static List<String> _dirs=new List<string>();
         static Dialog _dialog;
         //public static List<System.String> dataFromFile;
@@ -35,19 +29,13 @@ namespace DataEncryptAndDecrypt
         public static AlertDialog.Builder Builder { get => _builder; set => _builder = value; }
         public static IChangeViewvalues Fragmentobj { get => _fragmentobj; set => _fragmentobj = value; }
         public static FileData MFileData { get => fileData; set => fileData = value; }
-
-        private static Aes encryptor;
-        private static Rfc2898DeriveBytes pdb;
-        private static MemoryStream ms;
-        private static CryptoStream cs;
+        
         private static byte[] salt = new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb };
         
 
         public static string EncryptPassword(string passcode, string EncryptionKey)
         {
             string clearText = "";
-            byte[] clearBytes = System.Text.Encoding.Unicode.GetBytes(passcode);
-
             try
             {
                 using (Aes encryptor = Aes.Create())
@@ -58,19 +46,18 @@ namespace DataEncryptAndDecrypt
                     };
                     encryptor.Key = pdb.GetBytes(32);
                     encryptor.IV = pdb.GetBytes(16);
-                    using (MemoryStream ms = new MemoryStream())
+                    MemoryStream ms = new MemoryStream();                   
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
                     {
-                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                        {
-                            cs.Write(clearBytes, 0, clearBytes.Length);
-                        }
-                        clearText = Convert.ToBase64String(ms.ToArray());
+                        cs.Write(Encoding.Unicode.GetBytes(passcode), 0, Encoding.Unicode.GetBytes(passcode).Length);
                     }
+                    clearText = Convert.ToBase64String(ms.ToArray());
+                   
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
 
             return clearText;
@@ -81,7 +68,6 @@ namespace DataEncryptAndDecrypt
             string cipherText = "";
             try
             {
-                byte[] cipherBytes = Convert.FromBase64String(enpasscode);
                 using (Aes encryptor = Aes.Create())
                 {
                     Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey,salt)
@@ -90,19 +76,17 @@ namespace DataEncryptAndDecrypt
                     };
                     encryptor.Key = pdb.GetBytes(32);
                     encryptor.IV = pdb.GetBytes(16);
-                    using (MemoryStream ms = new MemoryStream())
+                    MemoryStream ms = new MemoryStream();                   
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
                     {
-                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                        {
-                            cs.Write(cipherBytes, 0, cipherBytes.Length);
-                        }
-                        cipherText = System.Text.Encoding.Unicode.GetString(ms.ToArray());
+                        cs.Write(Convert.FromBase64String(enpasscode), 0, Convert.FromBase64String(enpasscode).Length);
                     }
+                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
             return cipherText;
         }
@@ -111,7 +95,7 @@ namespace DataEncryptAndDecrypt
         {
             try
             {
-                Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
                 AlertDialog alert = dialog.Create();
                 alert.SetTitle(title);
                 alert.SetMessage(data);
@@ -131,7 +115,7 @@ namespace DataEncryptAndDecrypt
 
         public static FileData GetDataFromJson(String fileName)
         {
-            string Json = System.IO.File.ReadAllText(fileName);
+            string Json = File.ReadAllText(fileName);
             var myfileData = JsonConvert.DeserializeObject<FileData>(Json);
             return myfileData;
         }
@@ -168,7 +152,7 @@ namespace DataEncryptAndDecrypt
         {
             try
             {
-                AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(_context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(_context);
                 Dirs.Clear();
                 Java.IO.File dirFile;
 
@@ -253,7 +237,7 @@ namespace DataEncryptAndDecrypt
                 }
                 Dialog.Dismiss();
                 //Builder.Dispose();
-                Builder = new Android.App.AlertDialog.Builder(_context);
+                Builder = new AlertDialog.Builder(_context);
                 Builder.SetTitle("Selected Content");
 
                 var adapter = new ArrayAdapter<System.String>(_context, Android.Resource.Layout.SimpleSelectableListItem, Dirs);
@@ -263,7 +247,7 @@ namespace DataEncryptAndDecrypt
 
                 };
 
-                dirtext.LayoutParameters = new LayoutParams(ListView.LayoutParams.MatchParent, ListView.LayoutParams.MatchParent);
+                dirtext.LayoutParameters = new LayoutParams(Android.Views.ViewGroup.LayoutParams.MatchParent, Android.Views.ViewGroup.LayoutParams.MatchParent);
                 dirtext.ItemClick += OnContextItemSelected;
                 Builder.SetView(dirtext);
                 Dialog = Builder.Create();

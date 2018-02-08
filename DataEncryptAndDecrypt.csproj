@@ -82,7 +82,6 @@
   <ItemGroup>
     <Compile Include="ChangekeyFragment.cs" />
     <Compile Include="CommonMethods.cs" />
-    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DecryptFragment.cs" />
     <Compile Include="DeleteFragment.cs" />
     <Compile Include="CardInfoFragment.cs" />
@@ -98,9 +97,7 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\FingerPrint.axml" />
     <AndroidResource Include="Resources\layout\Main.axml" />
-    <AndroidResource Include="Resources\layout\MainAppScreenLayout.axml" />
     <AndroidResource Include="Resources\layout\MainChangeKeyLayout.axml" />
     <AndroidResource Include="Resources\layout\MainDecryptLayout.axml" />
     <AndroidResource Include="Resources\layout\MainDeleteLayout.axml" />

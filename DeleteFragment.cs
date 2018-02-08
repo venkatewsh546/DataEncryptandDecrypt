@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Android.OS;
 using Android.Text;
 using Android.Views;
@@ -35,10 +36,10 @@ namespace DataEncryptAndDecrypt
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            deleteView=(View)inflater.Inflate(Resource.Layout.MainDeleteLayout, container, false);
+            deleteView= inflater.Inflate(Resource.Layout.MainDeleteLayout, container, false);
             //MainDeleteLayout
             delFileSelectTextBox = deleteView.FindViewById<EditText>(Resource.Id.DelFileSelectTextBox);
-            delFileSelectTextBox.SetRawInputType(Android.Text.InputTypes.Null);
+            delFileSelectTextBox.SetRawInputType(InputTypes.Null);
             delFileSelectTextBox.SetCursorVisible(true);
             delFileSelectTextBox.Click += DisplayFilesAndFolders;
             delFileSelectTextBox.NextFocusDownId = Resource.Id.DelEncryptionKeyTextBox;
@@ -104,7 +105,7 @@ namespace DataEncryptAndDecrypt
                         if (cindex != -1)
                         {
                             MFileData.Mydata.Cardinfo.RemoveAt(cindex);
-                            System.IO.File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(MFileData));
+                            File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(MFileData));
                             Spinner(MFileData.Mydata, delTypeofAccountSpinner, deldataTypeRadiobutton.Text);
                             Toast.MakeText(_context, "data Deleted successfully", ToastLength.Short).Show();
                         }
@@ -115,7 +116,7 @@ namespace DataEncryptAndDecrypt
                         if (uindex != -1)
                         {
                             MFileData.Mydata.Unamepass.RemoveAt(uindex);
-                            System.IO.File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(MFileData));
+                            File.WriteAllText(delFileSelectTextBox.Text, JsonConvert.SerializeObject(MFileData));
                             Spinner(MFileData.Mydata, delTypeofAccountSpinner, deldataTypeRadiobutton.Text);
                             Toast.MakeText(_context, "data Deleted successfully", ToastLength.Short).Show();
                         }

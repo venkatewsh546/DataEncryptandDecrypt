@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
-using Android;
 using static DataEncryptAndDecrypt.CommonMethods;
-using System.Text;
-using static Android.App.ActionBar;
 using Newtonsoft.Json;
 using System.IO;
-using Android.Support.Design.Widget;
 
 namespace DataEncryptAndDecrypt
 {
@@ -89,17 +83,6 @@ namespace DataEncryptAndDecrypt
 
         private void EncryptbuttonWriteToFile()
         {
-            System.String account = string.Empty;
-            System.String cardNo = string.Empty;
-            System.String encryptKey = string.Empty;            
-            System.String ifscCode = string.Empty;
-            System.String validthrough = string.Empty;
-            System.String validFrom = string.Empty;
-            System.String nameOnCard = string.Empty;
-            System.String threeDSecureCode = string.Empty;
-            System.String cVV = string.Empty;
-            System.String notes = string.Empty;
-
             try
             {
                 Java.IO.File myFile;
@@ -133,55 +116,65 @@ namespace DataEncryptAndDecrypt
                 if ((!System.String.IsNullOrEmpty(ciTypeOfAccountTextBox.Text) || !System.String.IsNullOrWhiteSpace(ciTypeOfAccountTextBox.Text)) &&
                     (!System.String.IsNullOrEmpty(ciEncryptionKeyTextBox.Text) || !System.String.IsNullOrWhiteSpace(ciEncryptionKeyTextBox.Text)))
                 {
+                    System.String encryptKey = string.Empty;
                     encryptKey = ciEncryptionKeyTextBox.Text;
+                    System.String account = string.Empty;
                     account = ciTypeOfAccountTextBox.Text;
+                    System.String cardNo = string.Empty;
                     cardNo = EncryptPassword(ciCardNo.Text, encryptKey);
-                    ifscCode = EncryptPassword(ciIfscCode.Text, encryptKey);                                      
+                    System.String ifscCode = string.Empty;
+                    ifscCode = EncryptPassword(ciIfscCode.Text, encryptKey);
+                    System.String validthrough = string.Empty;
                     validthrough = EncryptPassword(ciValidthrough.Text, encryptKey);
+                    System.String validFrom = string.Empty;
                     validFrom = EncryptPassword(ciValidFrom.Text, encryptKey);
+                    System.String nameOnCard = string.Empty;
                     nameOnCard = EncryptPassword(ciNameOnCard.Text, encryptKey);
+                    System.String threeDSecureCode = string.Empty;
                     threeDSecureCode = EncryptPassword(ciThreeDSecureCode.Text, encryptKey);
+                    System.String cVV = string.Empty;
                     cVV = EncryptPassword(ciCVV.Text, encryptKey);
+                    System.String notes = string.Empty;
                     notes = EncryptPassword(ciNotes.Text, encryptKey);
 
                     var searchdata = account.ToString().ToUpper() + "," + cardNo;
-                    var index = MFileData.Mydata.Cardinfo.FindIndex(x => (x.Source+','+ x.CardNo).Equals(searchdata));
+                    var index = MFileData.Mydata.Cardinfo.FindIndex(x => (x.Source + ',' + x.CardNo).Equals(searchdata));
 
-                if (index != -1)
-                {
-                    MessageDialog("Updaing", "Old Data Will Replace With New One", _context);                    
-
-                    CommonMethods.MFileData.Mydata.Cardinfo[index].IFSCCODE = ifscCode;
-                    CommonMethods.MFileData.Mydata.Cardinfo[index].Validthrough = validthrough;
-                    CommonMethods.MFileData.Mydata.Cardinfo[index].ValidFrom = validFrom;
-                    CommonMethods.MFileData.Mydata.Cardinfo[index].NameOnCard = nameOnCard;
-                    CommonMethods.MFileData.Mydata.Cardinfo[index].ThreeDSecureCode = threeDSecureCode;
-                    CommonMethods.MFileData.Mydata.Cardinfo[index].CVV = cVV;
-                    CommonMethods.MFileData.Mydata.Cardinfo[index].Notes = notes;
-
-                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
-                            
-                    Toast.MakeText(_context, "data updated successfully", ToastLength.Short).Show();
-                }
-                else
-                {
-                    CommonMethods.MFileData.Mydata.Cardinfo.Add(new Cardinfo()
+                    if (index != -1)
                     {
-                        Source = account.ToUpper(),
-                        CardNo = cardNo,
-                        IFSCCODE = ifscCode,
-                        Validthrough = validthrough,
-                        ValidFrom = validFrom,
-                        NameOnCard = nameOnCard,
-                        ThreeDSecureCode = threeDSecureCode,
-                        CVV = cVV,
-                        Notes = notes
-                    });
+                        MessageDialog("Updaing", "Old Data Will Replace With New One", _context);
 
-                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
-                    Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
+                        MFileData.Mydata.Cardinfo[index].IFSCCODE = ifscCode;
+                        MFileData.Mydata.Cardinfo[index].Validthrough = validthrough;
+                        MFileData.Mydata.Cardinfo[index].ValidFrom = validFrom;
+                        MFileData.Mydata.Cardinfo[index].NameOnCard = nameOnCard;
+                        MFileData.Mydata.Cardinfo[index].ThreeDSecureCode = threeDSecureCode;
+                        MFileData.Mydata.Cardinfo[index].CVV = cVV;
+                        MFileData.Mydata.Cardinfo[index].Notes = notes;
 
-                }
+                        File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
+
+                        Toast.MakeText(_context, "data updated successfully", ToastLength.Short).Show();
+                    }
+                    else
+                    {
+                        MFileData.Mydata.Cardinfo.Add(new Cardinfo()
+                        {
+                            Source = account.ToUpper(),
+                            CardNo = cardNo,
+                            IFSCCODE = ifscCode,
+                            Validthrough = validthrough,
+                            ValidFrom = validFrom,
+                            NameOnCard = nameOnCard,
+                            ThreeDSecureCode = threeDSecureCode,
+                            CVV = cVV,
+                            Notes = notes
+                        });
+
+                        File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
+                        Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
+
+                    }
                 }
                 else
                 {
@@ -196,7 +189,7 @@ namespace DataEncryptAndDecrypt
 
                 }
             }
-            catch (System.IO.IOException e)
+            catch (IOException e)
             {
                 MessageDialog("Error....", "writeToFile :- " + e.Message, _context);
             }

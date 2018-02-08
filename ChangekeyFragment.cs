@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Android;
 using static DataEncryptAndDecrypt.CommonMethods;
 using Newtonsoft.Json;
-//using System.Web.Script.Serialization;
 
 namespace DataEncryptAndDecrypt
 {
     public sealed class ChangekeyFragment : Android.Support.V4.App.Fragment, IChangeViewvalues
     {
         View changeKeyView;
-        //MainChangeKeyLayout
         EditText ckFileSelectTextBox;
         EditText ckoldkey;
         EditText cknewkey;

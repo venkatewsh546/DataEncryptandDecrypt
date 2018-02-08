@@ -2,24 +2,11 @@
 using Android.Widget;
 using Android.OS;
 using System.Collections.Generic;
-using System;
-using Android.Content;
-using Java.IO;
-using System.Security.Cryptography;
-using System.IO;
-using Android.Media;
-using System.Runtime.Remoting.Contexts;
-using ViewGroup=Android.Views;
-using Java.Net;
-using static Android.App.ActionBar;
 using static DataEncryptAndDecrypt.CommonMethods;
 using SupportToolbar = Android.Support.V7.Widget.Toolbar;
 using SupportFragment = Android.Support.V4.App.Fragment;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
-using Android.Views;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace DataEncryptAndDecrypt
 {
@@ -48,19 +35,13 @@ namespace DataEncryptAndDecrypt
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
 
-            CommonMethods.Context = this;
-            //encryptFragment = new EncryptFragment();
-            //decryptFragment = new DecryptFragment();
-            //deleteFragment = new DeleteFragment();
-            //changekeyFragment = new ChangekeyFragment();
-            //cardInfoFragment = new CardInfoFragment();
+            Context = this;
 
             mToolbar = FindViewById<SupportToolbar>(Resource.Id.toolbar);
             mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerlayout);
             mLeftDrawer = FindViewById<ListView>(Resource.Id.leftdrawer);
             mLeftDrawer.Tag = 0;
             SetSupportActionBar(mToolbar);
-
            
             mLeftDataSet = new List<string>
             {
@@ -78,8 +59,8 @@ namespace DataEncryptAndDecrypt
             mDrawerToggle = new MyActionBarDrawerToggle(
                 this,                           //Host Activity
                 mDrawerLayout,                  //DrawerLayout
-                Resource.String.openDrawer,     //Opened Message
-                Resource.String.closeDrawer //Closed Message
+                openedResource: Resource.String.openDrawer,     //Opened Message
+                closedResource: Resource.String.closeDrawer //Closed Message
             );
 
             mDrawerLayout.AddDrawerListener(mDrawerToggle);
@@ -139,7 +120,7 @@ namespace DataEncryptAndDecrypt
                     ft.Replace(Resource.Id.DynamicFragments, deleteFragment);
                     ft.Commit();
                     mCurrentFragment = deleteFragment;
-                    CommonMethods.Fragmentobj = deleteFragment;
+                    Fragmentobj = deleteFragment;
                     break;
                 case 4:
                     changekeyFragment = new ChangekeyFragment();
@@ -148,18 +129,17 @@ namespace DataEncryptAndDecrypt
                     ft.Replace(Resource.Id.DynamicFragments, changekeyFragment);
                     ft.Commit();
                     mCurrentFragment = changekeyFragment;
-                    CommonMethods.Fragmentobj = changekeyFragment;
+                    Fragmentobj = changekeyFragment;
                     break;
             }
             mDrawerLayout.CloseDrawers();
             mDrawerToggle.SyncState();
         }
-                
+
         public override void OnBackPressed()
         {
-               Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
-        }             
-      
+            Process.KillProcess(Process.MyPid());
+        }
     }
 }
 

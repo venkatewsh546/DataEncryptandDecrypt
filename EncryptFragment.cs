@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
-using Android;
 using static DataEncryptAndDecrypt.CommonMethods;
-using System.Text;
-using static Android.App.ActionBar;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -63,10 +58,6 @@ namespace DataEncryptAndDecrypt
 
         private void EncryptbuttonWriteToFile()
         {
-            System.String account = string.Empty;
-            System.String userName = string.Empty;
-            System.String password = string.Empty;
-            System.String encryptKey = string.Empty;
             try
             {
                 Java.IO.File myFile;
@@ -91,7 +82,7 @@ namespace DataEncryptAndDecrypt
                         };
                         MFileData.Mydata.Unamepass = new List<Unamepass>();
                         MFileData.Mydata.Cardinfo = new List<Cardinfo>();
-                    }   
+                    }
                 }
                 else
                 {
@@ -104,45 +95,49 @@ namespace DataEncryptAndDecrypt
                     (!System.String.IsNullOrEmpty(elPasswordTextBox.Text) || !System.String.IsNullOrWhiteSpace(elPasswordTextBox.Text)) &&
                     (!System.String.IsNullOrEmpty(elEncryptionKeyTextBox.Text) || !System.String.IsNullOrWhiteSpace(elEncryptionKeyTextBox.Text)))
                 {
+                    System.String account = string.Empty;
                     account = elTypeOfAccountTextBox.Text;
+                    System.String userName = string.Empty;
                     userName = EncryptPassword(elUserNameTextBox.Text, elEncryptionKeyTextBox.Text);
+                    System.String password = string.Empty;
                     password = EncryptPassword(elPasswordTextBox.Text, elEncryptionKeyTextBox.Text);
-                    encryptKey = elEncryptionKeyTextBox.Text;                   
+                    System.String encryptKey = string.Empty;
+                    encryptKey = elEncryptionKeyTextBox.Text;
 
-                 var index = MFileData.Mydata.Unamepass.FindIndex(x => (x.Source+','+ x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
+                    var index = MFileData.Mydata.Unamepass.FindIndex(x => (x.Source + ',' + x.UserName).Equals(account.ToString().ToUpper() + "," + userName));
 
-                if (index != -1)
-                {
-                    MessageDialog("Updaing", "Old Password Will Replace With New One", _context);
+                    if (index != -1)
+                    {
+                        MessageDialog("Updaing", "Old Password Will Replace With New One", _context);
 
-                    var searchdata = account.ToString().ToUpper() + "," + userName;
+                        var searchdata = account.ToString().ToUpper() + "," + userName;
 
                         MFileData.Mydata.Unamepass[index].Password = password;
 
-                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(CommonMethods.MFileData));
-                            
-                    Toast.MakeText(_context, "data updated successfully", ToastLength.Short).Show();
-                }
-                else
-                {
-                 MFileData.Mydata.Unamepass.Add(new Unamepass()
+                        File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
+
+                        Toast.MakeText(_context, "data updated successfully", ToastLength.Short).Show();
+                    }
+                    else
                     {
-                        Source = account.ToUpper(),
-                        UserName = userName,
-                        Password = password
-                    });
+                        MFileData.Mydata.Unamepass.Add(new Unamepass()
+                        {
+                            Source = account.ToUpper(),
+                            UserName = userName,
+                            Password = password
+                        });
 
-                    System.IO.File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
-                    Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
+                        File.WriteAllText(myFile.AbsolutePath, JsonConvert.SerializeObject(MFileData));
+                        Toast.MakeText(_context, "data encrypted successfully", ToastLength.Short).Show();
 
-                }
+                    }
                 }
                 else
                 {
                     MessageDialog("info", "please enter data in all fileds", _context);
                 }
             }
-            catch (System.IO.IOException e)
+            catch (IOException e)
             {
                 MessageDialog("Error....", "writeToFile :- " + e.Message, _context);
             }

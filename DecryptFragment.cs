@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Java.Util;
 using static DataEncryptAndDecrypt.CommonMethods;
 
 namespace DataEncryptAndDecrypt
@@ -43,7 +42,7 @@ namespace DataEncryptAndDecrypt
             dlEncryptionKeyTextBox = decryptView.FindViewById<EditText>(Resource.Id.DlEncryptionKeyTextBox);
 
             decrypteddataListView = decryptView.FindViewById<ListView>(Resource.Id.DecrypteddataListView);
-            decrypteddataListView.ItemLongClick += CommonMethods.ListViewLongClickListener;
+            decrypteddataListView.ItemLongClick += ListViewLongClickListener;
 
             decryptDataButton = decryptView.FindViewById<Button>(Resource.Id.DecryptButton);
             decryptDataButton.Click += DecryptButtonClick;
