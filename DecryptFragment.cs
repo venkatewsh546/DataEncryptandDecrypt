@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -88,7 +89,7 @@ namespace DataEncryptAndDecrypt
                     foreach (Cardinfo str in selectedCardInfo)
                     {
                         if (str.Source.Equals(dlTypeofAccountSpinner.SelectedItem.ToString()))
-                        {
+                        {                            
                             datacol.Add(str.Source);
                             datacol.Add("CardNo: " + DecryptPassword(str.CardNo, dlEncryptionKeyTextBox.Text));
                             datacol.Add("IfscCode: " + DecryptPassword(str.IFSCCODE, dlEncryptionKeyTextBox.Text));
@@ -96,7 +97,19 @@ namespace DataEncryptAndDecrypt
                             datacol.Add("Validthrough: " + DecryptPassword(str.Validthrough, dlEncryptionKeyTextBox.Text));
                             datacol.Add("NameOnCard: " + DecryptPassword(str.NameOnCard, dlEncryptionKeyTextBox.Text));
                             datacol.Add("ThreeDSecureCode: " + DecryptPassword(str.ThreeDSecureCode, dlEncryptionKeyTextBox.Text));
-                            datacol.Add("Notes: " + DecryptPassword(str.Notes, dlEncryptionKeyTextBox.Text));
+                            datacol.Add("Notes: ");
+
+                            if (DecryptPassword(str.Notes, dlEncryptionKeyTextBox.Text).Length>30)
+                            {
+                                List<string> result = new List<string>(Regex.Split(DecryptPassword(str.Notes, dlEncryptionKeyTextBox.Text), pattern: @"(?<=\G.{30})", options: RegexOptions.Singleline));
+
+                                foreach(string sstr in result)
+                                {
+                                    datacol.Add(sstr);
+                                }
+                            }
+
+                            
                         }
                     }
                 }
@@ -120,7 +133,7 @@ namespace DataEncryptAndDecrypt
                     datacol.Add("No Data");
                 }
 
-                var adapter = new ArrayAdapter<String>(_context, Android.Resource.Layout.SimpleSpinnerItem, datacol);
+                var adapter = new ArrayAdapter<String>(_context, Android.Resource.Layout.SimpleSpinnerItem, datacol);               
                 decrypteddataListView.Adapter = adapter;
             }
             else
