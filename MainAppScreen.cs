@@ -48,7 +48,7 @@ namespace DataEncryptAndDecrypt
                 "Encrypt Card Data",
                 "Decrypt Data",
                 "Delete Data",
-                "Change key"     
+                "Change key"
             };
 
             mLeftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mLeftDataSet);

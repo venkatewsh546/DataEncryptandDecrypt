@@ -97,7 +97,8 @@ namespace DataEncryptAndDecrypt
                             datacol.Add("Validthrough: " + DecryptPassword(str.Validthrough, dlEncryptionKeyTextBox.Text));
                             datacol.Add("NameOnCard: " + DecryptPassword(str.NameOnCard, dlEncryptionKeyTextBox.Text));
                             datacol.Add("ThreeDSecureCode: " + DecryptPassword(str.ThreeDSecureCode, dlEncryptionKeyTextBox.Text));
-                            datacol.Add("Notes: ");
+                            datacol.Add("Cvv: " + DecryptPassword(str.CVV, dlEncryptionKeyTextBox.Text));
+                            datacol.Add("Notes: " + DecryptPassword(str.Notes, dlEncryptionKeyTextBox.Text));
 
                             if (DecryptPassword(str.Notes, dlEncryptionKeyTextBox.Text).Length>30)
                             {
