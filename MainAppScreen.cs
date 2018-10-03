@@ -7,6 +7,10 @@ using SupportToolbar = Android.Support.V7.Widget.Toolbar;
 using SupportFragment = Android.Support.V4.App.Fragment;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
+using System.Threading.Tasks;
+using Android;
+using Android.Content.PM;
+using Android.Runtime;
 
 namespace DataEncryptAndDecrypt
 {
@@ -35,6 +39,8 @@ namespace DataEncryptAndDecrypt
             SetContentView(Resource.Layout.Main);
 
             Context = this;
+
+            RequestPermissions();
 
             mToolbar = FindViewById<SupportToolbar>(Resource.Id.toolbar);
             mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerlayout);
@@ -75,8 +81,55 @@ namespace DataEncryptAndDecrypt
             mCurrentFragment = encryptFragment;
             Fragmentobj = encryptFragment;
 
-        }       
-       
+        }
+
+        private void RequestPermissions()
+        {
+            if (CheckSelfPermission(Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
+            {
+                Android.App.AlertDialog.Builder alert = new Android.App.AlertDialog.Builder(this);
+                alert.SetTitle("requesting permissions");
+                alert.SetMessage("requesting permissions");
+                alert.SetPositiveButton("ok", (senderAlert, args) =>
+                {
+                    RequestPermissions(new string[]
+                    { Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage}, 0);
+
+                });
+                alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+                {
+                    Toast.MakeText(this, "Storage Permission Not Granted", ToastLength.Short);
+                    System.Environment.Exit(0);
+                });
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+            }
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            switch (requestCode)
+            {
+                case 0:
+                    {
+                        if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
+                        {
+                            Toast.MakeText(this, "Storage Permission Granted", ToastLength.Short);
+                        }
+                        else
+                        {
+                            Toast.MakeText(this, "Storage Permission Not Granted", ToastLength.Short);
+                            System.Environment.Exit(0);
+                        }
+                        return;
+                    }
+            }
+        }
+
+
         private void MenuListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             switch (e.Id)

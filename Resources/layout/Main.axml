@@ -14,31 +14,10 @@
         android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-       <!-- <include
-            android:id="@+id/EncryptLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/MainEncryptLayout" />
-        <include
-            android:id="@+id/DecryptLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/MainDecryptLayout" />
-        <include
-            android:id="@+id/DeleteLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/MainDeleteLayout" />
-        <include
-            android:id="@+id/ChangeKeyLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/MainChangeKeyLayout" />-->
        <FrameLayout
             android:id="@+id/DynamicFragments"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-      
+            android:layout_height="match_parent" />      
         <ListView
             android:id="@+id/leftdrawer"
             android:layout_width="240dp"
